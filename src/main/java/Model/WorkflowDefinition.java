@@ -1,15 +1,33 @@
 package Model;
 
-import java.util.List;
-
 public class WorkflowDefinition {
 
     private String wfId;
     private String wfName;
-    private List<ApprovalStep> approvalStep;
+   // private List<ApprovalStep> approvalStep;
     private String wfDescription;
     private String approvalSubject;
     private String approvalDescription;
+
+    public WorkflowDefinition(String wfId, String wfName, String wfDescription, String approvalSubject, String approvalDescription) {
+
+        this.wfId = wfId;
+        this.wfName = wfName;
+        this.wfDescription = wfDescription;
+        //this.approvalStep = approvalSteps;
+        this.approvalSubject = approvalSubject;
+        this.approvalDescription = approvalDescription;
+    }
+
+    public WorkflowDefinition(String wfId) {
+
+        this.wfId = wfId;
+    }
+
+    public WorkflowDefinition() {
+
+    }
+
 
     public String getWfId() {
 
@@ -41,7 +59,7 @@ public class WorkflowDefinition {
         this.wfName = wfName;
     }
 
-    public List<ApprovalStep> getApprovalStep() {
+    /*public List<ApprovalStep> getApprovalStep() {
 
         return approvalStep;
     }
@@ -49,7 +67,7 @@ public class WorkflowDefinition {
     public void setApprovalStep(List<ApprovalStep> approvalStep) {
 
         this.approvalStep = approvalStep;
-    }
+    }*/
 
     public String getApprovalSubject() {
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 public interface WorkflowEngine {
 
+
     /**
      * Add new workflow definition.
      *
@@ -43,11 +44,11 @@ public interface WorkflowEngine {
 
     /**
      * Update existing workflow Definition.
-     *
-     * @param wfId ID of workflow to update.
+     *  @param wfId ID of workflow to update.
      * @param updatedWorkflowDefinition updatedWorkflowDefinition object from Workflow class.
      * @param tenantId Tenant ID.
+     * @return workflowDefinition object.
      */
-    void updateDefinition(String wfId, WorkflowDefinition updatedWorkflowDefinition, int tenantId);
+    WorkflowDefinition updateDefinition(String wfId, WorkflowDefinition updatedWorkflowDefinition, int tenantId);
 
 }

@@ -1,4 +1,3 @@
-import Model.ApprovalStep;
 import Model.WorkflowDefinition;
 
 import java.util.ArrayList;
@@ -11,12 +10,9 @@ public class WorkflowEngineDefinition implements WorkflowEngine {
 
         String wfId = workflowDefinition.getWfId();
         String wfName = workflowDefinition.getWfName();
-        List<ApprovalStep> approvalSteps = new ArrayList<>();
         String approvalSubject = workflowDefinition.getApprovalSubject();
         if (wfName == null) {
             return "Workflow name cannot empty";
-        } else if (approvalSteps != null) {
-            return "no need to add steps";
         } else if (approvalSubject == null) {
             return "Approval subject can not empty";
         } else {
@@ -35,9 +31,8 @@ public class WorkflowEngineDefinition implements WorkflowEngine {
     @Override
     public List<WorkflowDefinition> listDefinitions(String searchQuery, int limit, int offSet, int tenantId) {
 
-    //TODO implementation
-        return new List<WorkflowDefinition>() {
-        }
+        //TODO implementation
+        return new ArrayList<>();
     }
 
     @Override
@@ -46,7 +41,8 @@ public class WorkflowEngineDefinition implements WorkflowEngine {
     }
 
     @Override
-    public void updateDefinition(String wfId, WorkflowDefinition updatedWorkflowDefinition, int tenantId) {
-
+    public WorkflowDefinition updateDefinition(String wfId, WorkflowDefinition updatedWorkflowDefinition, int tenantId) {
+    //TODO implementation
+        return updatedWorkflowDefinition;
     }
 }

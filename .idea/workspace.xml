@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a289f726-b560-4587-8776-ce2313e40952" name="Changes" comment="" />
+    <list default="true" id="a289f726-b560-4587-8776-ce2313e40952" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/WorkflowDefinition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/WorkflowDefinition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/WorkflowEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/WorkflowEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/WorkflowEngineDefinition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/WorkflowEngineDefinition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/WorkflowEngineDefinitionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/WorkflowEngineDefinitionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Model/WorkflowDefinition.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Model/WorkflowDefinition.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/WorkflowEngine.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/WorkflowEngine.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/WorkflowEngineDefinition.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/WorkflowEngineDefinition.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/WorkflowEngineDefinitionTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/WorkflowEngineDefinitionTest.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -52,7 +62,7 @@
       <recent name="Model" />
     </key>
   </component>
-  <component name="RunManager" selected="TestNG.WorkflowEngineDefinitionTest.updateDefinition">
+  <component name="RunManager" selected="TestNG.WorkflowEngineDefinitionTest">
     <configuration name="WorkflowEngineDefinitionTest" type="TestNG" temporary="true" nameIsGenerated="true">
       <module name="WorkflowEngineDefault" />
       <option name="PACKAGE_NAME" value="" />
@@ -64,23 +74,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WorkflowEngineDefinitionTest.addDefinition" type="TestNG" temporary="true" nameIsGenerated="true">
+    <configuration name="WorkflowEngineDefinitionTest.deleteDefinition" type="TestNG" temporary="true" nameIsGenerated="true">
       <module name="WorkflowEngineDefault" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="WorkflowEngineDefinitionTest" />
-      <option name="METHOD_NAME" value="addDefinition" />
-      <option name="TEST_OBJECT" value="METHOD" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="WorkflowEngineDefinitionTest.listDefinitions (1)" type="TestNG" temporary="true" nameIsGenerated="true">
-      <module name="WorkflowEngineDefault" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="WorkflowEngineDefinitionTest" />
-      <option name="METHOD_NAME" value="listDefinitions" />
+      <option name="METHOD_NAME" value="deleteDefinition" />
       <option name="TEST_OBJECT" value="METHOD" />
       <properties />
       <listeners />
@@ -93,6 +91,18 @@
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="WorkflowEngineDefinitionTest" />
       <option name="METHOD_NAME" value="listDefinitions" />
+      <option name="TEST_OBJECT" value="METHOD" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WorkflowEngineDefinitionTest.updateDefinition (1)" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="WorkflowEngineDefault" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="WorkflowEngineDefinitionTest" />
+      <option name="METHOD_NAME" value="updateDefinition" />
       <option name="TEST_OBJECT" value="METHOD" />
       <properties />
       <listeners />
@@ -114,11 +124,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="TestNG.WorkflowEngineDefinitionTest.updateDefinition" />
         <item itemvalue="TestNG.WorkflowEngineDefinitionTest" />
-        <item itemvalue="TestNG.WorkflowEngineDefinitionTest.listDefinitions (1)" />
         <item itemvalue="TestNG.WorkflowEngineDefinitionTest.listDefinitions" />
-        <item itemvalue="TestNG.WorkflowEngineDefinitionTest.addDefinition" />
+        <item itemvalue="TestNG.WorkflowEngineDefinitionTest.deleteDefinition" />
+        <item itemvalue="TestNG.WorkflowEngineDefinitionTest.updateDefinition" />
+        <item itemvalue="TestNG.WorkflowEngineDefinitionTest.updateDefinition (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -132,6 +142,17 @@
       <updated>1648798000811</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
