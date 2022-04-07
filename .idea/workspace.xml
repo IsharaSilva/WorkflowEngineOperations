@@ -4,16 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a289f726-b560-4587-8776-ce2313e40952" name="Changes" comment="include list, update definition tests">
+    <list default="true" id="a289f726-b560-4587-8776-ce2313e40952" name="Changes" comment="include ApprovalStep class">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Model/ApprovalStep.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/ApprovalStep.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/WorkflowDefinition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/WorkflowDefinition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/WorkflowEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/WorkflowEngine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/WorkflowEngineDefinition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/WorkflowEngineDefinition.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/WorkflowEngineDefinitionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/WorkflowEngineDefinitionTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/WorkflowDefinition.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Model/WorkflowDefinition.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/WorkflowEngine.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/WorkflowEngine.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/WorkflowEngineDefinition.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/WorkflowEngineDefinition.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Model/ApprovalStep.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Model/ApprovalStep.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/test-classes/WorkflowEngineDefinitionTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/WorkflowEngineDefinitionTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -27,9 +22,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="AnnotationType" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -64,12 +59,24 @@
       <recent name="Model" />
     </key>
   </component>
-  <component name="RunManager" selected="TestNG.WorkflowEngineDefinitionTest.updateDefinition">
+  <component name="RunManager" selected="TestNG.WorkflowEngineDefinitionTest">
     <configuration name="WorkflowEngineDefinitionTest" type="TestNG" temporary="true" nameIsGenerated="true">
       <module name="WorkflowEngineDefault" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="WorkflowEngineDefinitionTest" />
       <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WorkflowEngineDefinitionTest.addDefinition" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="WorkflowEngineDefault" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="WorkflowEngineDefinitionTest" />
+      <option name="METHOD_NAME" value="addDefinition" />
+      <option name="TEST_OBJECT" value="METHOD" />
       <properties />
       <listeners />
       <method v="2">
@@ -100,18 +107,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WorkflowEngineDefinitionTest.updateDefinition (1)" type="TestNG" temporary="true" nameIsGenerated="true">
-      <module name="WorkflowEngineDefault" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="WorkflowEngineDefinitionTest" />
-      <option name="METHOD_NAME" value="updateDefinition" />
-      <option name="TEST_OBJECT" value="METHOD" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="WorkflowEngineDefinitionTest.updateDefinition" type="TestNG" temporary="true" nameIsGenerated="true">
       <module name="WorkflowEngineDefault" />
       <option name="PACKAGE_NAME" value="" />
@@ -126,11 +121,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="TestNG.WorkflowEngineDefinitionTest.updateDefinition" />
-        <item itemvalue="TestNG.WorkflowEngineDefinitionTest.deleteDefinition" />
         <item itemvalue="TestNG.WorkflowEngineDefinitionTest" />
+        <item itemvalue="TestNG.WorkflowEngineDefinitionTest.addDefinition" />
         <item itemvalue="TestNG.WorkflowEngineDefinitionTest.listDefinitions" />
-        <item itemvalue="TestNG.WorkflowEngineDefinitionTest.updateDefinition (1)" />
+        <item itemvalue="TestNG.WorkflowEngineDefinitionTest.deleteDefinition" />
+        <item itemvalue="TestNG.WorkflowEngineDefinitionTest.updateDefinition" />
       </list>
     </recent_temporary>
   </component>
@@ -150,7 +145,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649249712171</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="include ApprovalStep class">
+      <created>1649333802631</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1649333802631</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -166,7 +168,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="include list, update definition tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="include list, update definition tests" />
+    <MESSAGE value="include ApprovalStep class" />
+    <option name="LAST_COMMIT_MESSAGE" value="include ApprovalStep class" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Map;
 import javax.management.relation.Role;
 
-public class ApprovalStep {
+public class ApprovalStep implements ApprovalStepBuilder {
 
     private String name;
-    private ArrayList<user> users;
+    private ArrayList<User> users;
     private ArrayList<Role> roles;
     Map<String, Object> parameterMap;
 
@@ -21,12 +21,12 @@ public class ApprovalStep {
         this.name = name;
     }
 
-    public ArrayList<user> getUsers() {
+    public ArrayList<User> getUsers() {
 
         return users;
     }
 
-    public void setUsers(ArrayList<user> users) {
+    public void setUsers(ArrayList<User> users) {
 
         this.users = users;
     }
@@ -49,5 +49,11 @@ public class ApprovalStep {
     public void setParameterMap(Map<String, Object> parameterMap) {
 
         this.parameterMap = parameterMap;
+    }
+
+    @Override
+    public ApprovalStepBuilder addUsers() {
+
+        return null;
     }
 }

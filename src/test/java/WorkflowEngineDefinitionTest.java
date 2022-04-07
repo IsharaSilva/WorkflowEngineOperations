@@ -32,7 +32,7 @@ public class WorkflowEngineDefinitionTest {
         };
     }
 
-    @Test(dataProvider = "addWorkflowDefinitionData")
+    @Test(dataProvider = "addWorkflowDefinitionData", priority = 1)
     public void addDefinition(WorkflowDefinition workflowDefinition, int tenantId) {
 
         /*String result = workflowEngineDefinition.addDefinition((WorkflowDefinition) workflowDefinition, tenantId);
@@ -63,19 +63,27 @@ public class WorkflowEngineDefinitionTest {
                 },
                 {
                         Arrays.asList(
-                                workflowDefinition1,
-                                workflowDefinition2),
+                                workflowDefinition1, workflowDefinition2
+                        ),
                         "WfName",
                         1,
                         0,
                         tenantId
+                },
+                {
+                        Arrays.asList(
+                                workflowDefinition1, workflowDefinition2
+                        ),
+                        "WfName",
+                        1,
+                        1,
+                        tenantId
                 }
-
         };
     }
 
     @AfterMethod
-    @Test(dataProvider = "listWorkflowDefinitionsDataProvider")
+    @Test(dataProvider = "listWorkflowDefinitionsDataProvider", priority = 2)
     public void listDefinitions(List<WorkflowDefinition> workflowDefinitions, String searchQuery, int limit, int offSet, int tenantId) {
 
         List<WorkflowDefinition> definitionList = Arrays.asList(new WorkflowDefinition[3]);
@@ -102,18 +110,18 @@ public class WorkflowEngineDefinitionTest {
         };
     }
 
-    @Test(dataProvider = "updateWorkflowDefinitionsDataProvider")
+    @Test(dataProvider = "updateWorkflowDefinitionsDataProvider", priority = 3)
     public void updateDefinition(String wfId, WorkflowDefinition newWorkflowDefinition, int tenantId) {
 
         WorkflowDefinition oldWorkflowDefinition = workflowEngineDefinition.getDefinition(wfId, tenantId);
         workflowEngineDefinition.updateDefinition(wfId, newWorkflowDefinition, tenantId);
 
-        assertEquals(oldWorkflowDefinition.getWfName(), newWorkflowDefinition.getWfName());
-        assertEquals(oldWorkflowDefinition.getWfId(), newWorkflowDefinition.getWfDescription());
+       assertEquals(oldWorkflowDefinition.getWfName(), newWorkflowDefinition.getWfName());
+       assertEquals(oldWorkflowDefinition.getWfId(), newWorkflowDefinition.getWfDescription());
     }
 
     @AfterMethod
-    @Test(dataProvider = "addWorkflowDefinitionData")
+    @Test(dataProvider = "addWorkflowDefinitionData",priority = 4)
     public void deleteDefinition(WorkflowDefinition workflowDefinition, int tenantId) {
 
         WorkflowDefinition workflowDefinitionResult = workflowEngineDefinition.getDefinition(workflowDefinition.getWfId(), tenantId);
