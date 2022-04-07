@@ -38,11 +38,12 @@ public class WorkflowEngineDefinition implements WorkflowEngine {
     @Override
     public void deleteDefinition(String wfId, int tenantId) {
 
+        //TODO implementation
     }
 
     @Override
-    public WorkflowDefinition updateDefinition(String wfId, WorkflowDefinition updatedWorkflowDefinition, int tenantId) {
-    //TODO implementation
-        return updatedWorkflowDefinition;
+    public void updateDefinition(String wfId, WorkflowDefinition updatedWorkflowDefinition, int tenantId) {
+
+        //TODO implementation
     }
 }

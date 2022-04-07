@@ -1,4 +1,5 @@
 import Model.WorkflowDefinition;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -6,7 +7,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
-
 
 public class WorkflowEngineDefinitionTest {
 
@@ -18,7 +18,7 @@ public class WorkflowEngineDefinitionTest {
     public Object[][] addWorkflowDefinitionData() {
 
         WorkflowDefinition workflowDefinition1 = new WorkflowDefinition("1", "WfName 1", "Wf Description 1", "Approval subject 1", " Approve Description 1");
-        WorkflowDefinition workflowDefinition2 = new WorkflowDefinition("2", "WfName 2", "Wf Description 2", "Approval subject 2", " Approve Description 2");
+        WorkflowDefinition workflowDefinition2 = new WorkflowDefinition("2", "", "Wf Description 2", "Approval subject 2", " Approve Description 2");
 
         return new Object[][]{
                 {
@@ -54,17 +54,27 @@ public class WorkflowEngineDefinitionTest {
         return new Object[][]{
                 {
                         Arrays.asList(
-                                workflowDefinition1,
-                                workflowDefinition2
+                                workflowDefinition1, workflowDefinition2
                         ),
                         "searchQuery1",
                         0,
                         0,
                         tenantId
+                },
+                {
+                        Arrays.asList(
+                                workflowDefinition1,
+                                workflowDefinition2),
+                        "WfName",
+                        1,
+                        0,
+                        tenantId
                 }
+
         };
     }
 
+    @AfterMethod
     @Test(dataProvider = "listWorkflowDefinitionsDataProvider")
     public void listDefinitions(List<WorkflowDefinition> workflowDefinitions, String searchQuery, int limit, int offSet, int tenantId) {
 
@@ -83,59 +93,32 @@ public class WorkflowEngineDefinitionTest {
     @DataProvider(name = "updateWorkflowDefinitionsDataProvider")
     public Object[][] updateWorkflowDefinitionsData() {
 
-        WorkflowDefinition workflowDefinition1 = new WorkflowDefinition("1", "WfName 1", "Wf Description 1", "Approval subject 1", " Approve Description 1");
-        WorkflowDefinition workflowDefinition2 = new WorkflowDefinition("2", "WfName 2", "Wf Description 2", "Approval subject 2", " Approve Description 2");
-        WorkflowDefinition newWorkflowDefinition1 = new WorkflowDefinition("1 updated", "WfName 1 updated", "Wf Description 1 updated", "Approval subject 1 updated", " Approve Description 1 updated");
-        WorkflowDefinition newWorkflowDefinition2 = new WorkflowDefinition("2 updated", "WfName 2 updated", "Wf Description 2", "Approval subject 2 updated", " Approve Description 2 updated");
+        WorkflowDefinition newWorkflowDefinition1 = new WorkflowDefinition("WfName 1 updated", "WfDescription 1 updated", "Approval subject1 updated", " Approval Description1 updated");
+        WorkflowDefinition newWorkflowDefinition2 = new WorkflowDefinition("WfName 2 updated", "WfDescription 2", "Approval subject2 updated", " Approval Description2 updated");
 
         return new Object[][]{
-                {
-                        workflowDefinition1,
-                        newWorkflowDefinition1,
-                        tenantId
-                },
-                {
-
-                        workflowDefinition2,
-                        newWorkflowDefinition2,
-                        tenantId
-                }
+                {"1", newWorkflowDefinition1, tenantId},
+                {"2", newWorkflowDefinition2, tenantId}
         };
     }
 
     @Test(dataProvider = "updateWorkflowDefinitionsDataProvider")
-    public void updateDefinition(WorkflowDefinition oldWorkflowDefinition, WorkflowDefinition newWorkflowDefinition, int tenantId) {
+    public void updateDefinition(String wfId, WorkflowDefinition newWorkflowDefinition, int tenantId) {
 
-        WorkflowDefinition workflowDef = oldWorkflowDefinition;
-        String oldWfId = workflowDef.getWfId();
-        WorkflowDefinition updatedWorkflowDefinition = workflowEngineDefinition.updateDefinition(oldWfId, newWorkflowDefinition, tenantId);
-        assertEquals((newWorkflowDefinition).getWfId(), updatedWorkflowDefinition.getWfId());
-        assertEquals((newWorkflowDefinition).getWfName(), updatedWorkflowDefinition.getWfName());
+        WorkflowDefinition oldWorkflowDefinition = workflowEngineDefinition.getDefinition(wfId, tenantId);
+        workflowEngineDefinition.updateDefinition(wfId, newWorkflowDefinition, tenantId);
+
+        assertEquals(oldWorkflowDefinition.getWfName(), newWorkflowDefinition.getWfName());
+        assertEquals(oldWorkflowDefinition.getWfId(), newWorkflowDefinition.getWfDescription());
     }
 
-    @DataProvider(name = "deleteWorkflowDefinitionData")
-    public Object[][] deleteWorkflowDefinitionData() {
-
-        WorkflowDefinition workflowDefinition1 = new WorkflowDefinition("1", "WfName 1", "Wf Description 1", "Approval subject 1", " Approve Description 1");
-        WorkflowDefinition workflowDefinition2 = new WorkflowDefinition("2", "WfName 2", "Wf Description 2", "Approval subject 2", " Approve Description 2");
-
-        return new Object[][]{
-                {
-                        workflowDefinition1,
-                        tenantId
-                },
-                {
-                        workflowDefinition2,
-                        tenantId
-                }
-        };
-    }
-
-    @Test(dataProvider = "deleteWorkflowDefinitionData")
+    @AfterMethod
+    @Test(dataProvider = "addWorkflowDefinitionData")
     public void deleteDefinition(WorkflowDefinition workflowDefinition, int tenantId) {
 
         WorkflowDefinition workflowDefinitionResult = workflowEngineDefinition.getDefinition(workflowDefinition.getWfId(), tenantId);
         assertEquals(workflowDefinitionResult.getWfId(), workflowDefinition.getWfId());
+
         workflowEngineDefinition.deleteDefinition(workflowDefinitionResult.getWfId(), tenantId);
     }
 }

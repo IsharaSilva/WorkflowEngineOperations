@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a289f726-b560-4587-8776-ce2313e40952" name="Changes" comment="">
+    <list default="true" id="a289f726-b560-4587-8776-ce2313e40952" name="Changes" comment="include list, update definition tests">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/ApprovalStep.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/ApprovalStep.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Model/WorkflowDefinition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/WorkflowDefinition.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/WorkflowEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/WorkflowEngine.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/WorkflowEngineDefinition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/WorkflowEngineDefinition.java" afterDir="false" />
@@ -47,6 +48,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SONARLINT_PRECOMMIT_ANALYSIS" value="true" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/test/java/Model" />
   </component>
   <component name="RecentsManager">
@@ -62,7 +64,7 @@
       <recent name="Model" />
     </key>
   </component>
-  <component name="RunManager" selected="TestNG.WorkflowEngineDefinitionTest">
+  <component name="RunManager" selected="TestNG.WorkflowEngineDefinitionTest.updateDefinition">
     <configuration name="WorkflowEngineDefinitionTest" type="TestNG" temporary="true" nameIsGenerated="true">
       <module name="WorkflowEngineDefault" />
       <option name="PACKAGE_NAME" value="" />
@@ -124,10 +126,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="TestNG.WorkflowEngineDefinitionTest.updateDefinition" />
+        <item itemvalue="TestNG.WorkflowEngineDefinitionTest.deleteDefinition" />
         <item itemvalue="TestNG.WorkflowEngineDefinitionTest" />
         <item itemvalue="TestNG.WorkflowEngineDefinitionTest.listDefinitions" />
-        <item itemvalue="TestNG.WorkflowEngineDefinitionTest.deleteDefinition" />
-        <item itemvalue="TestNG.WorkflowEngineDefinitionTest.updateDefinition" />
         <item itemvalue="TestNG.WorkflowEngineDefinitionTest.updateDefinition (1)" />
       </list>
     </recent_temporary>
@@ -141,6 +143,14 @@
       <option name="presentableId" value="Default" />
       <updated>1648798000811</updated>
     </task>
+    <task id="LOCAL-00001" summary="include list, update definition tests">
+      <created>1649249712171</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1649249712171</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -153,6 +163,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="include list, update definition tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="include list, update definition tests" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

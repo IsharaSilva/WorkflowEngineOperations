@@ -49,6 +49,6 @@ public interface WorkflowEngine {
      * @param tenantId Tenant ID.
      * @return workflowDefinition object.
      */
-    WorkflowDefinition updateDefinition(String wfId, WorkflowDefinition updatedWorkflowDefinition, int tenantId);
+    void updateDefinition(String wfId, WorkflowDefinition updatedWorkflowDefinition, int tenantId);
 
 }
