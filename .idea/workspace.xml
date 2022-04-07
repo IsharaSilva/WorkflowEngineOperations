@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a289f726-b560-4587-8776-ce2313e40952" name="Changes" comment="include ApprovalStep class">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/ApprovalStep.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/ApprovalStep.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/WorkflowEngineDefinitionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/WorkflowEngineDefinitionTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/ApprovalStep.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Model/ApprovalStep.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/WorkflowEngineDefinitionTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/WorkflowEngineDefinitionTest.class" afterDir="false" />
-    </list>
+    <list default="true" id="a289f726-b560-4587-8776-ce2313e40952" name="Changes" comment="include ApprovalStep class" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
