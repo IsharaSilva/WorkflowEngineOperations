@@ -11,48 +11,26 @@ public class ApprovalStep implements ApprovalStepBuilder {
     private ArrayList<Role> roles;
     Map<String, Object> parameterMap;
 
-    public String getName() {
+    @Override
+    public ApprovalStepBuilder addUsers(ArrayList<User>) {
 
-        return name;
-    }
-
-    public void setName(String name) {
-
-        this.name = name;
-    }
-
-    public ArrayList<User> getUsers() {
-
-        return users;
-    }
-
-    public void setUsers(ArrayList<User> users) {
-
-        this.users = users;
-    }
-
-    public ArrayList<Role> getRoles() {
-
-        return roles;
-    }
-
-    public void setRoles(ArrayList<Role> roles) {
-
-        this.roles = roles;
-    }
-
-    public Map<String, Object> getParameterMap() {
-
-        return parameterMap;
-    }
-
-    public void setParameterMap(Map<String, Object> parameterMap) {
-
-        this.parameterMap = parameterMap;
+        return this;
     }
 
     @Override
-    public ApprovalStepBuilder addUsers() {
+    public ApprovalStepBuilder addRoles() {
+
+        return null;
+    }
+
+    @Override
+    public ApprovalStepBuilder addParameter(String key, Object value) {
+
+        return null;
+    }
+
+    @Override
+    public ApprovalStep build() {
 
         return null;
     }

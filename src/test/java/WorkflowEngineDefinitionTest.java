@@ -1,5 +1,5 @@
 import Model.WorkflowDefinition;
-import org.testng.annotations.AfterMethod;
+import exception.WorkflowEngineException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -32,7 +32,7 @@ public class WorkflowEngineDefinitionTest {
         };
     }
 
-    @Test(dataProvider = "addWorkflowDefinitionData", priority = 1)
+    @Test(dataProvider = "addWorkflowDefinitionData")
     public void addDefinition(WorkflowDefinition workflowDefinition, int tenantId) {
 
         /*String result = workflowEngineDefinition.addDefinition((WorkflowDefinition) workflowDefinition, tenantId);
@@ -82,8 +82,7 @@ public class WorkflowEngineDefinitionTest {
         };
     }
 
-    @AfterMethod
-    @Test(dataProvider = "listWorkflowDefinitionsDataProvider", priority = 2)
+    @Test(dataProvider = "listWorkflowDefinitionsDataProvider", dependsOnMethods = "addDefinition")
     public void listDefinitions(List<WorkflowDefinition> workflowDefinitions, String searchQuery, int limit, int offSet, int tenantId) {
 
         List<WorkflowDefinition> definitionList = Arrays.asList(new WorkflowDefinition[3]);
@@ -110,23 +109,24 @@ public class WorkflowEngineDefinitionTest {
         };
     }
 
-    @Test(dataProvider = "updateWorkflowDefinitionsDataProvider", priority = 3)
+    @Test(dataProvider = "updateWorkflowDefinitionsDataProvider", dependsOnMethods = {"addDefinition","listDefinitions"})
     public void updateDefinition(String wfId, WorkflowDefinition newWorkflowDefinition, int tenantId) {
 
-        WorkflowDefinition oldWorkflowDefinition = workflowEngineDefinition.getDefinition(wfId, tenantId);
         workflowEngineDefinition.updateDefinition(wfId, newWorkflowDefinition, tenantId);
+        WorkflowDefinition updatedWorkflowDefinition = workflowEngineDefinition.getDefinition(wfId, tenantId);
 
-       assertEquals(oldWorkflowDefinition.getWfName(), newWorkflowDefinition.getWfName());
-       assertEquals(oldWorkflowDefinition.getWfId(), newWorkflowDefinition.getWfDescription());
+        assertEquals(newWorkflowDefinition.getWfName(), updatedWorkflowDefinition.getWfName());
+        assertEquals(newWorkflowDefinition.getWfDescription(), updatedWorkflowDefinition.getWfId());
     }
 
-    @AfterMethod
-    @Test(dataProvider = "addWorkflowDefinitionData",priority = 4)
-    public void deleteDefinition(WorkflowDefinition workflowDefinition, int tenantId) {
+    @Test(dataProvider = "addWorkflowDefinitionData", dependsOnMethods = {"addDefinition","listDefinitions","updateDefinition"}, expectedExceptions = {WorkflowEngineException.class})
+    public void deleteDefinition(String wfId, int tenantId) throws Exception{
+        //assertEquals(workflowDefinitionResult.getWfId(), workflowDefinition.getWfId());
 
-        WorkflowDefinition workflowDefinitionResult = workflowEngineDefinition.getDefinition(workflowDefinition.getWfId(), tenantId);
-        assertEquals(workflowDefinitionResult.getWfId(), workflowDefinition.getWfId());
+        workflowEngineDefinition.deleteDefinition(wfId, tenantId);
+    WorkflowDefinition workflowDefinitionResult = workflowEngineDefinition.getDefinition(wfId, tenantId);
 
-        workflowEngineDefinition.deleteDefinition(workflowDefinitionResult.getWfId(), tenantId);
+
+
     }
 }
