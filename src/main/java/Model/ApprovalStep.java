@@ -12,7 +12,7 @@ public class ApprovalStep implements ApprovalStepBuilder {
     Map<String, Object> parameterMap;
 
     @Override
-    public ApprovalStepBuilder addUsers(ArrayList<User>) {
+    public ApprovalStepBuilder addUsers() {
 
         return this;
     }

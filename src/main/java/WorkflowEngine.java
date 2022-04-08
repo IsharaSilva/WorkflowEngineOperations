@@ -1,4 +1,5 @@
 import Model.WorkflowDefinition;
+import exception.WorkflowEngineException;
 
 import java.util.List;
 
@@ -40,7 +41,7 @@ public interface WorkflowEngine {
      * @param wfId ID of workflow to remove.
      * @param tenantId Tenant ID.
      */
-    void deleteDefinition(String wfId, int tenantId);
+    void deleteDefinition(String wfId, int tenantId) throws WorkflowEngineException;
 
     /**
      * Update existing workflow Definition.

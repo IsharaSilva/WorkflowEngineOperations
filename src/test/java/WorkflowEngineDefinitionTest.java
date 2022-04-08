@@ -109,24 +109,25 @@ public class WorkflowEngineDefinitionTest {
         };
     }
 
-    @Test(dataProvider = "updateWorkflowDefinitionsDataProvider", dependsOnMethods = {"addDefinition","listDefinitions"})
+    @Test(dataProvider = "updateWorkflowDefinitionsDataProvider", dependsOnMethods = {"addDefinition", "listDefinitions"})
     public void updateDefinition(String wfId, WorkflowDefinition newWorkflowDefinition, int tenantId) {
 
         workflowEngineDefinition.updateDefinition(wfId, newWorkflowDefinition, tenantId);
         WorkflowDefinition updatedWorkflowDefinition = workflowEngineDefinition.getDefinition(wfId, tenantId);
 
-        assertEquals(newWorkflowDefinition.getWfName(), updatedWorkflowDefinition.getWfName());
-        assertEquals(newWorkflowDefinition.getWfDescription(), updatedWorkflowDefinition.getWfId());
+        assertEquals(updatedWorkflowDefinition.getWfName(),newWorkflowDefinition.getWfName());
+        assertEquals(updatedWorkflowDefinition.getWfDescription(),newWorkflowDefinition.getWfDescription());
     }
 
-    @Test(dataProvider = "addWorkflowDefinitionData", dependsOnMethods = {"addDefinition","listDefinitions","updateDefinition"}, expectedExceptions = {WorkflowEngineException.class})
-    public void deleteDefinition(String wfId, int tenantId) throws Exception{
-        //assertEquals(workflowDefinitionResult.getWfId(), workflowDefinition.getWfId());
+    @Test(dataProvider = "addWorkflowDefinitionData", dependsOnMethods = {"addDefinition", "listDefinitions", "updateDefinition"})
+    public void deleteDefinition(String wfId, int tenantId){
 
-        workflowEngineDefinition.deleteDefinition(wfId, tenantId);
-    WorkflowDefinition workflowDefinitionResult = workflowEngineDefinition.getDefinition(wfId, tenantId);
-
-
-
+        try {
+           workflowEngineDefinition.deleteDefinition(wfId,tenantId);
+       } catch (WorkflowEngineException e){
+           if(workflowEngineDefinition.getDefinition(wfId, tenantId)==null){
+               assertEquals(e.getMessage(),"WorkflowId is Invalid");
+           }
+       }
     }
 }

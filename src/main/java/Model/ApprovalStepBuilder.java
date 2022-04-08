@@ -6,7 +6,7 @@ import javax.management.relation.Role;
 
 public interface ApprovalStepBuilder {
 
-    ApprovalStepBuilder addUsers(ArrayList(users));
+    ApprovalStepBuilder addUsers();
 
     ApprovalStepBuilder addRoles();
 
@@ -21,9 +21,8 @@ public interface ApprovalStepBuilder {
             private ArrayList<Role> roles;
             Map<String, Object> parameterMap;
 
-            public ApprovalStepBuilder addUsers(ArrayList<User>) {
-
-                return this;
+            public ApprovalStepBuilder addUsers() {
+return  null;
             }
 
             public ApprovalStepBuilder addRoles() {
