@@ -5,16 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a289f726-b560-4587-8776-ce2313e40952" name="Changes" comment="include ApprovalStep class">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/model/ApprovalStep.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/model/ApprovalStepBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/ApprovalStep.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/ApprovalStepBuilder.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/WorkflowDefinition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/model/WorkflowDefinition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/WorkflowEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/WorkflowEngine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/WorkflowEngineDefinition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/WorkflowEngineDefinition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/exception/WorkflowEngineException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/exception/WorkflowEngineException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/WorkflowEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/WorkflowEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/WorkflowEngineDefinition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/WorkflowEngineDefinition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/exception/WorkflowEngineException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/exception/WorkflowEngineException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/WorkflowEngineDefinitionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/WorkflowEngineDefinitionTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -65,8 +59,11 @@
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="Model" />
     </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.wso2.carbon.identity.workflow.engine.exception" />
+    </key>
   </component>
-  <component name="RunManager" selected="TestNG.WorkflowEngineDefinitionTest.deleteDefinition">
+  <component name="RunManager" selected="TestNG.WorkflowEngineDefinitionTest.testAddDefinition">
     <configuration name="WorkflowEngineDefinitionTest" type="TestNG" temporary="true" nameIsGenerated="true">
       <module name="WorkflowEngineDefault" />
       <option name="PACKAGE_NAME" value="" />
@@ -102,11 +99,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WorkflowEngineDefinitionTest.listDefinitions" type="TestNG" temporary="true" nameIsGenerated="true">
+    <configuration name="WorkflowEngineDefinitionTest.testAddDefinition" type="TestNG" temporary="true" nameIsGenerated="true">
       <module name="WorkflowEngineDefault" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="WorkflowEngineDefinitionTest" />
-      <option name="METHOD_NAME" value="listDefinitions" />
+      <option name="METHOD_NAME" value="testAddDefinition" />
       <option name="TEST_OBJECT" value="METHOD" />
       <properties />
       <listeners />
@@ -114,11 +111,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WorkflowEngineDefinitionTest.updateDefinition" type="TestNG" temporary="true" nameIsGenerated="true">
+    <configuration name="WorkflowEngineDefinitionTest.testDeleteDefinition" type="TestNG" temporary="true" nameIsGenerated="true">
       <module name="WorkflowEngineDefault" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="WorkflowEngineDefinitionTest" />
-      <option name="METHOD_NAME" value="updateDefinition" />
+      <option name="METHOD_NAME" value="testDeleteDefinition" />
       <option name="TEST_OBJECT" value="METHOD" />
       <properties />
       <listeners />
@@ -128,11 +125,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="TestNG.WorkflowEngineDefinitionTest.testAddDefinition" />
+        <item itemvalue="TestNG.WorkflowEngineDefinitionTest.testDeleteDefinition" />
         <item itemvalue="TestNG.WorkflowEngineDefinitionTest.deleteDefinition" />
         <item itemvalue="TestNG.WorkflowEngineDefinitionTest" />
         <item itemvalue="TestNG.WorkflowEngineDefinitionTest.addDefinition" />
-        <item itemvalue="TestNG.WorkflowEngineDefinitionTest.listDefinitions" />
-        <item itemvalue="TestNG.WorkflowEngineDefinitionTest.updateDefinition" />
       </list>
     </recent_temporary>
   </component>
@@ -199,11 +196,6 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="1" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/WorkflowEngineDefinitionTest.java</url>
-          <line>127</line>
-          <option name="timeStamp" value="41" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
