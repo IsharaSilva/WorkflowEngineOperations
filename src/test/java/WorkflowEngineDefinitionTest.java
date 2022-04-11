@@ -1,7 +1,9 @@
-import Model.WorkflowDefinition;
-import exception.WorkflowEngineException;
+import org.wso2.carbon.identity.workflow.engine.model.WorkflowDefinition;
+import org.wso2.carbon.identity.workflow.engine.exception.WorkflowEngineException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.wso2.carbon.identity.workflow.engine.WorkflowEngine;
+import org.wso2.carbon.identity.workflow.engine.WorkflowEngineDefinition;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +35,7 @@ public class WorkflowEngineDefinitionTest {
     }
 
     @Test(dataProvider = "addWorkflowDefinitionData")
-    public void addDefinition(WorkflowDefinition workflowDefinition, int tenantId) {
+    public void testAddDefinition(WorkflowDefinition workflowDefinition, int tenantId) {
 
         /*String result = workflowEngineDefinition.addDefinition((WorkflowDefinition) workflowDefinition, tenantId);
         assertEquals("1", result);*/
@@ -82,8 +84,8 @@ public class WorkflowEngineDefinitionTest {
         };
     }
 
-    @Test(dataProvider = "listWorkflowDefinitionsDataProvider", dependsOnMethods = "addDefinition")
-    public void listDefinitions(List<WorkflowDefinition> workflowDefinitions, String searchQuery, int limit, int offSet, int tenantId) {
+    @Test(dataProvider = "listWorkflowDefinitionsDataProvider", dependsOnMethods = "testAddDefinition")
+    public void testListDefinitions(List<WorkflowDefinition> workflowDefinitions, String searchQuery, int limit, int offSet, int tenantId) {
 
         List<WorkflowDefinition> definitionList = Arrays.asList(new WorkflowDefinition[3]);
         int i = 0;
@@ -109,8 +111,8 @@ public class WorkflowEngineDefinitionTest {
         };
     }
 
-    @Test(dataProvider = "updateWorkflowDefinitionsDataProvider", dependsOnMethods = {"addDefinition", "listDefinitions"})
-    public void updateDefinition(String wfId, WorkflowDefinition newWorkflowDefinition, int tenantId) {
+    @Test(dataProvider = "updateWorkflowDefinitionsDataProvider", dependsOnMethods = {"testListDefinitions"})
+    public void testUpdateDefinition(String wfId, WorkflowDefinition newWorkflowDefinition, int tenantId) {
 
         workflowEngineDefinition.updateDefinition(wfId, newWorkflowDefinition, tenantId);
         WorkflowDefinition updatedWorkflowDefinition = workflowEngineDefinition.getDefinition(wfId, tenantId);
@@ -119,15 +121,11 @@ public class WorkflowEngineDefinitionTest {
         assertEquals(updatedWorkflowDefinition.getWfDescription(),newWorkflowDefinition.getWfDescription());
     }
 
-    @Test(dataProvider = "addWorkflowDefinitionData", dependsOnMethods = {"addDefinition", "listDefinitions", "updateDefinition"})
-    public void deleteDefinition(String wfId, int tenantId){
+    @Test(dataProvider = "addWorkflowDefinitionData", dependsOnMethods = {"testUpdateDefinition"})
+    public void testDeleteDefinition(String wfId, int tenantId) throws WorkflowEngineException {
 
-        try {
-           workflowEngineDefinition.deleteDefinition(wfId,tenantId);
-       } catch (WorkflowEngineException e){
-           if(workflowEngineDefinition.getDefinition(wfId, tenantId)==null){
-               assertEquals(e.getMessage(),"WorkflowId is Invalid");
-           }
-       }
+        workflowEngineDefinition.deleteDefinition(wfId, tenantId);
+        WorkflowDefinition oldWorkflowDefinition=workflowEngineDefinition.getDefinition(wfId, tenantId);
+        assertEquals( aaa,"WorkflowId is Invalid");
     }
 }

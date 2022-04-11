@@ -1,5 +1,7 @@
-import Model.WorkflowDefinition;
-import exception.WorkflowEngineException;
+package org.wso2.carbon.identity.workflow.engine;
+
+import org.wso2.carbon.identity.workflow.engine.model.WorkflowDefinition;
+import org.wso2.carbon.identity.workflow.engine.exception.WorkflowEngineException;
 
 import java.util.List;
 

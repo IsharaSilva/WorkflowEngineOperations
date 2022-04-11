@@ -5,16 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a289f726-b560-4587-8776-ce2313e40952" name="Changes" comment="include ApprovalStep class">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/model/ApprovalStep.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/model/ApprovalStepBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/ApprovalStep.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/ApprovalStep.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/ApprovalStepBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/ApprovalStepBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/WorkflowEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/WorkflowEngine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/WorkflowEngineDefinition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/WorkflowEngineDefinition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/ApprovalStep.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/ApprovalStepBuilder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/WorkflowDefinition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/model/WorkflowDefinition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/WorkflowEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/WorkflowEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/WorkflowEngineDefinition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/WorkflowEngineDefinition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/exception/WorkflowEngineException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/exception/WorkflowEngineException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/WorkflowEngineDefinitionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/WorkflowEngineDefinitionTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/ApprovalStep.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/ApprovalStepBuilder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/WorkflowEngine.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/WorkflowEngineDefinition.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,6 +51,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SONARLINT_PRECOMMIT_ANALYSIS" value="true" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/test/java/Model" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../carbon-identity-framework" />
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
@@ -199,7 +201,7 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/WorkflowEngineDefinitionTest.java</url>
-          <line>124</line>
+          <line>127</line>
           <option name="timeStamp" value="41" />
         </line-breakpoint>
       </breakpoints>

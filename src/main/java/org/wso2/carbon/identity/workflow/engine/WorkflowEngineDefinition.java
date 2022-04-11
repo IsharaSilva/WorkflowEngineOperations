@@ -1,4 +1,6 @@
-import Model.WorkflowDefinition;
+package org.wso2.carbon.identity.workflow.engine;
+
+import org.wso2.carbon.identity.workflow.engine.model.WorkflowDefinition;
 
 import java.util.ArrayList;
 import java.util.List;

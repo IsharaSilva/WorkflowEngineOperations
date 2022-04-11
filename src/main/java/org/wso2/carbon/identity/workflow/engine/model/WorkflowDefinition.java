@@ -1,4 +1,4 @@
-package Model;
+package org.wso2.carbon.identity.workflow.engine.model;
 
 import java.util.List;
 
