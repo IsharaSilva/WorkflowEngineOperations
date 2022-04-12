@@ -14,12 +14,9 @@ public class WorkflowEngineDefinition implements WorkflowEngine {
     public String addDefinition(WorkflowDefinition workflowDefinition, int tenantId) {
 
         WorkflowDefinitionDAO workflowDefinitionDao = new WorkflowDefinitionDAOImpl();
-        Optional<WorkflowDefinition> workflowName = workflowDefinitionDao.getDefinition(workflowDefinition.getWfName(), tenantId);
+        Optional<WorkflowDefinition> workflowName = workflowDefinitionDao.getDefinition(
+                workflowDefinition.getWfName(), tenantId);
 
-        // It returns value of an Optional.
-        // If workflowName value is not present, it throws
-        // an NoSuchElementException
-        //workflowName.get();
         if (!workflowName.isPresent()) {
             return "Workflow name cannot null";
         } else if (workflowName.equals(workflowDefinition.getWfName())) {
@@ -28,13 +25,14 @@ public class WorkflowEngineDefinition implements WorkflowEngine {
             workflowDefinition.getWfName();
         }
 
-        Optional<WorkflowDefinition> approvalSubject = workflowDefinitionDao.getDefinition(workflowDefinition.getApprovalSubject(), tenantId);
-        //If there is no value present in this Optional, then returns false
-        // else true.
+        Optional<WorkflowDefinition> approvalSubject = workflowDefinitionDao.getDefinition(
+                workflowDefinition.getApprovalSubject(), tenantId);
+        /*
+        If there is no value present in this Optional, then returns false
+         else true
+        */
         if (!approvalSubject.isPresent()) {
             return "Approval subject cannot empty";
-        } else {
-            workflowDefinition.getApprovalSubject();
         }
 
         return workflowDefinitionDao.addDefinition(workflowDefinition, tenantId);
@@ -46,7 +44,6 @@ public class WorkflowEngineDefinition implements WorkflowEngine {
         //TODO implementation
         WorkflowDefinitionDAO workflowDefinitionDAO = new WorkflowDefinitionDAOImpl();
         return workflowDefinitionDAO.getDefinition(wfId, tenantId);
-        //return Optional.of(new WorkflowDefinition());
     }
 
     @Override

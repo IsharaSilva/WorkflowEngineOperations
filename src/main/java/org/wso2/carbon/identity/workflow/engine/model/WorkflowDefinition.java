@@ -27,10 +27,6 @@ public class WorkflowDefinition {
         this.approvalSubject = approvalSubject;
         this.approvalDescription = approvalDescription;
     }
-    public WorkflowDefinition() {
-
-    }
-
 
     public String getWfId() {
 

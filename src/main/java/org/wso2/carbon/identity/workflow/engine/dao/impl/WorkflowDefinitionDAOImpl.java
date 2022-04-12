@@ -1,13 +1,10 @@
 package org.wso2.carbon.identity.workflow.engine.dao.impl;
 
+import org.wso2.carbon.database.utils.jdbc.JdbcTemplate;
+import org.wso2.carbon.identity.configuration.mgt.core.util.JdbcUtils;
 import org.wso2.carbon.identity.workflow.engine.dao.WorkflowDefinitionDAO;
-import org.wso2.carbon.identity.workflow.engine.exception.WorkflowEngineException;
 import org.wso2.carbon.identity.workflow.engine.model.WorkflowDefinition;
-import org.wso2.carbon.identity.workflow.engine.util.SQLConstants;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +14,8 @@ public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
     public String addDefinition(WorkflowDefinition workflowDefinition, int tenantId) {
 
         {
-            try
+            JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
+            /*try
                 (Connection connection = getDBConnection()){
             PreparedStatement prepStmt = null;
             String query = SQLConstants.ADD_WORKFLOW_QUERY;
@@ -31,7 +29,7 @@ public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
                 prepStmt.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
-            }
+            }*/
 
            
         }
@@ -51,7 +49,7 @@ public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
     }
 
     @Override
-    public void deleteDefinition(String wfId, int tenantId) throws WorkflowEngineException {
+    public void deleteDefinition(String wfId, int tenantId) {
 
     }
 

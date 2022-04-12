@@ -53,7 +53,10 @@ public class WorkflowEngineDefinitionTest {
         Optional<WorkflowDefinition> addedDefinition = workflowEngineDefinition.getDefinition(
                 workflowDefinition.getWfId(), tenantId);
 
-        assertEquals(addedDefinition, workflowDefinition.getWfId());
+        if (addedDefinition.isPresent()){
+
+            assertEquals(addedDefinition.get().getWfId(), workflowDefinition.getWfId());
+        }
         //assertEquals(addedDefinition.getWfName(), workflowDefinition.getWfName());
     }
 
@@ -129,7 +132,7 @@ public class WorkflowEngineDefinitionTest {
     public void testDeleteDefinition(String wfId, int tenantId) throws WorkflowEngineException {
 
         workflowEngineDefinition.deleteDefinition(wfId, tenantId);
-        Optional<Optional<WorkflowDefinition>> oldWorkflowDefinition=Optional.of(workflowEngineDefinition.getDefinition(wfId, tenantId));
+        Optional<WorkflowDefinition> oldWorkflowDefinition = workflowEngineDefinition.getDefinition(wfId, tenantId);
 
         assertFalse(oldWorkflowDefinition.isPresent());
     }
