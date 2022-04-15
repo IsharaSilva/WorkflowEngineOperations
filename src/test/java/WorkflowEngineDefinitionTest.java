@@ -53,8 +53,7 @@ public class WorkflowEngineDefinitionTest {
         Optional<WorkflowDefinition> addedDefinition = workflowEngineDefinition.getDefinition(
                 workflowDefinition.getWfId(), tenantId);
 
-        if (addedDefinition.isPresent()){
-
+        if (addedDefinition.isPresent()) {
             assertEquals(addedDefinition.get().getWfId(), workflowDefinition.getWfId());
         }
         //assertEquals(addedDefinition.getWfName(), workflowDefinition.getWfName());
@@ -125,7 +124,9 @@ public class WorkflowEngineDefinitionTest {
         workflowEngineDefinition.updateDefinition(wfId, newWorkflowDefinition, tenantId);
         Optional<WorkflowDefinition> updatedWorkflowDefinition = workflowEngineDefinition.getDefinition(wfId, tenantId);
 
-        assertEquals(updatedWorkflowDefinition,newWorkflowDefinition.getWfName());
+        if (updatedWorkflowDefinition.isPresent()) {
+            assertEquals(updatedWorkflowDefinition.get().getWfName(), newWorkflowDefinition.getWfName());
+        }
     }
 
     @Test(dataProvider = "addWorkflowDefinitionData", dependsOnMethods = {"testUpdateDefinition"})

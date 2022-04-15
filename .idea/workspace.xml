@@ -5,20 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a289f726-b560-4587-8776-ce2313e40952" name="Changes" comment="include ApprovalStep class">
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/WorkflowEngineDefinition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/WorkflowEngineDefinition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/dao/WorkflowDefinitionDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/dao/WorkflowDefinitionDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/dao/impl/WorkflowDefinitionDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/dao/impl/WorkflowDefinitionDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/exception/WorkflowEngineException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/exception/WorkflowEngineException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/model/WorkflowDefinition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/model/WorkflowDefinition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/util/SQLConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/util/WorkflowDefinitionConstants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/WorkflowEngineDefinitionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/WorkflowEngineDefinitionTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/wso2/carbon/identity/workflow/engine/WorkflowEngineDefinition.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/wso2/carbon/identity/workflow/engine/WorkflowEngineDefinition.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/wso2/carbon/identity/workflow/engine/dao/WorkflowDefinitionDao.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/wso2/carbon/identity/workflow/engine/dao/impl/WorkflowDefinitionDaoImpl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/wso2/carbon/identity/workflow/engine/exception/WorkflowEngineException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/wso2/carbon/identity/workflow/engine/exception/WorkflowEngineException.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/wso2/carbon/identity/workflow/engine/model/WorkflowDefinition.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/wso2/carbon/identity/workflow/engine/model/WorkflowDefinition.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/WorkflowEngineDefinitionTest.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +46,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SONARLINT_PRECOMMIT_ANALYSIS" value="true" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/test/java/Model" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../carbon-identity-framework" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">

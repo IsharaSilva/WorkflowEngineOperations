@@ -13,29 +13,8 @@ public class WorkflowEngineDefinition implements WorkflowEngine {
     @Override
     public String addDefinition(WorkflowDefinition workflowDefinition, int tenantId) {
 
-        WorkflowDefinitionDAO workflowDefinitionDao = new WorkflowDefinitionDAOImpl();
-        Optional<WorkflowDefinition> workflowName = workflowDefinitionDao.getDefinition(
-                workflowDefinition.getWfName(), tenantId);
-
-        if (!workflowName.isPresent()) {
-            return "Workflow name cannot null";
-        } else if (workflowName.equals(workflowDefinition.getWfName())) {
-            return "Workflow name cannot duplicate";
-        } else {
-            workflowDefinition.getWfName();
-        }
-
-        Optional<WorkflowDefinition> approvalSubject = workflowDefinitionDao.getDefinition(
-                workflowDefinition.getApprovalSubject(), tenantId);
-        /*
-        If there is no value present in this Optional, then returns false
-         else true
-        */
-        if (!approvalSubject.isPresent()) {
-            return "Approval subject cannot empty";
-        }
-
-        return workflowDefinitionDao.addDefinition(workflowDefinition, tenantId);
+        WorkflowDefinitionDAO workflowDefinitionDAO = new WorkflowDefinitionDAOImpl();
+        return workflowDefinitionDAO.addDefinition(workflowDefinition, tenantId);
     }
 
     @Override
