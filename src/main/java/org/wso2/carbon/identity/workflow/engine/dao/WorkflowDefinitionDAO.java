@@ -1,7 +1,5 @@
 package org.wso2.carbon.identity.workflow.engine.dao;
 
-import org.wso2.carbon.identity.workflow.engine.exception.WorkflowEngineException;
-import org.wso2.carbon.identity.workflow.engine.exception.WorkflowEngineSQLException;
 import org.wso2.carbon.identity.workflow.engine.model.WorkflowDefinition;
 
 import java.util.List;
@@ -25,7 +23,7 @@ public interface WorkflowDefinitionDAO {
      * @param tenantId Tenant ID.
      * @return workflowDefinition object from WorkflowDefinition class.
      */
-    Optional<WorkflowDefinition> getDefinition(String wfId, int tenantId) throws WorkflowEngineSQLException;
+    Optional<WorkflowDefinition> getDefinition(String wfId, int tenantId);
 
     /**
      * List workflow definitions.
@@ -44,7 +42,7 @@ public interface WorkflowDefinitionDAO {
      * @param wfId     ID of workflow to remove.
      * @param tenantId Tenant ID.
      */
-    void deleteDefinition(String wfId, int tenantId) throws WorkflowEngineException;
+    void deleteDefinition(String wfId, int tenantId);
 
     /**
      * Update existing workflow Definition.

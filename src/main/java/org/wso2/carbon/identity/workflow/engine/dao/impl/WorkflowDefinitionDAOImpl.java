@@ -13,7 +13,6 @@ import java.util.Optional;
 
 import static org.wso2.carbon.identity.workflow.engine.util.WorkflowDefinitionConstants.APPROVAL_DESCRIPTION_COLUMN;
 import static org.wso2.carbon.identity.workflow.engine.util.WorkflowDefinitionConstants.APPROVAL_SUBJECT_COLUMN;
-import static org.wso2.carbon.identity.workflow.engine.util.WorkflowDefinitionConstants.ErrorMessages.ERROR_CODE_SELECT_TEMPLATE_BY_WFID;
 import static org.wso2.carbon.identity.workflow.engine.util.WorkflowDefinitionConstants.WF_DESCRIPTION_COLUMN;
 import static org.wso2.carbon.identity.workflow.engine.util.WorkflowDefinitionConstants.WF_NAME_COLUMN;
 
@@ -42,34 +41,31 @@ public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
     }
 
     @Override
-    public Optional<WorkflowDefinition> getDefinition(String wfId, int tenantId) throws WorkflowEngineSQLException {
+    public Optional<WorkflowDefinition> getDefinition(String wfId, int tenantId) {
 
-        WorkflowDefinition workflowDefinition;
+        WorkflowDefinition workflowDefinition = null;
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
         try {
             workflowDefinition = jdbcTemplate.fetchSingleRecord(WorkflowDefinitionConstants.SqlQueries.GET_WORKFLOW,
-                    ((resultSet, i) -> {
-                        WorkflowDefinition workflowDefinitionResult;
-                        try {
-                            workflowDefinitionResult = new WorkflowDefinition(
+                    ((resultSet, i) ->
+                            new WorkflowDefinition(
                                     resultSet.getString(WF_NAME_COLUMN),
                                     resultSet.getString(WF_DESCRIPTION_COLUMN),
                                     resultSet.getString(APPROVAL_SUBJECT_COLUMN),
-                                    resultSet.getString(APPROVAL_DESCRIPTION_COLUMN));
-                        } catch (Exception e) {
-                            throw new WorkflowEngineSQLException(String.format(ERROR_CODE_SELECT_TEMPLATE_BY_WFID.getMessage(),
-                                    tenantId, wfId));
-                        }
-                        return workflowDefinitionResult;
-                    }),
+                                    resultSet.getString(APPROVAL_DESCRIPTION_COLUMN))),
+
                     preparedStatement -> {
                         preparedStatement.setString(1, wfId);
                         preparedStatement.setInt(2, tenantId);
                     });
         } catch (DataAccessException e) {
-            throw new WorkflowEngineSQLException(String.format("Error Error while checking existence of \" +\n" +
-                            "workflow: %s in tenant: %s",
-                    tenantId, wfId));
+            try {
+                throw new WorkflowEngineSQLException(String.format("Error occurred while retrieving workflow" +
+                                "workflow Id: %s in tenant Id: %d",
+                        wfId, tenantId), e);
+            } catch (WorkflowEngineSQLException ex) {
+                ex.printStackTrace();
+            }
         }
         return Optional.ofNullable(workflowDefinition);
     }
@@ -77,12 +73,51 @@ public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
     @Override
     public List<WorkflowDefinition> listDefinitions(String searchQuery, int limit, int offSet, int tenantId) {
 
-        return null;
+        List<WorkflowDefinition> workflowDefinitionList = null;
+        JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
+        try {
+            workflowDefinitionList = jdbcTemplate.executeQuery(WorkflowDefinitionConstants.SqlQueries.
+                            LIST_WORKFLOWS_QUERY, (resultSet, rowNumber) -> new WorkflowDefinition(
+                            resultSet.getString(WF_NAME_COLUMN),
+                            resultSet.getString(WF_DESCRIPTION_COLUMN),
+                            resultSet.getString(APPROVAL_SUBJECT_COLUMN),
+                            resultSet.getString(APPROVAL_DESCRIPTION_COLUMN)),
+                    preparedStatement -> {
+                        preparedStatement.setString(1, searchQuery);
+                        preparedStatement.setInt(2, limit);
+                        preparedStatement.setInt(3, offSet);
+                        preparedStatement.setInt(4, tenantId);
+                    });
+        } catch (DataAccessException e) {
+            String errorMessage = "Error occurred while retrieving all workflow Definitions";
+            try {
+                throw new WorkflowEngineSQLException(errorMessage, e);
+            } catch (WorkflowEngineSQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return workflowDefinitionList;
     }
 
     @Override
     public void deleteDefinition(String wfId, int tenantId) {
 
+        JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
+        try {
+            jdbcTemplate.executeUpdate(WorkflowDefinitionConstants.SqlQueries.DELETE_WORKFLOW_QUERY,
+                    preparedStatement -> {
+                        preparedStatement.setString(1, wfId);
+                        preparedStatement.setInt(2, tenantId);
+                    });
+        } catch (DataAccessException e) {
+            try {
+                String errorMessage = String.format("Error while deleting the workflow from wfId:%s, in tenant Id: %d."
+                        , wfId, tenantId);
+                throw new WorkflowEngineSQLException(errorMessage, e);
+            } catch (WorkflowEngineSQLException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     @Override

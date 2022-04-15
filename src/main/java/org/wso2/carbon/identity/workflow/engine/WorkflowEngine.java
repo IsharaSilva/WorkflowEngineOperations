@@ -1,7 +1,6 @@
 package org.wso2.carbon.identity.workflow.engine;
 
 import org.wso2.carbon.identity.workflow.engine.model.WorkflowDefinition;
-import org.wso2.carbon.identity.workflow.engine.exception.WorkflowEngineException;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,7 +43,7 @@ public interface WorkflowEngine {
      * @param wfId ID of workflow to remove.
      * @param tenantId Tenant ID.
      */
-    void deleteDefinition(String wfId, int tenantId) throws WorkflowEngineException;
+    void deleteDefinition(String wfId, int tenantId);
 
     /**
      * Update existing workflow Definition.
