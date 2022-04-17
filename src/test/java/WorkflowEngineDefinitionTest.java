@@ -129,7 +129,7 @@ public class WorkflowEngineDefinitionTest {
     }
 
     @Test(dataProvider = "addWorkflowDefinitionData", dependsOnMethods = {"testUpdateDefinition"})
-    public void testDeleteDefinition(String wfId, int tenantId) throws WorkflowEngineException {
+    public void testDeleteDefinition(String wfId, int tenantId) {
 
         workflowEngineDefinition.deleteDefinition(wfId, tenantId);
         Optional<WorkflowDefinition> oldWorkflowDefinition = workflowEngineDefinition.getDefinition(wfId, tenantId);

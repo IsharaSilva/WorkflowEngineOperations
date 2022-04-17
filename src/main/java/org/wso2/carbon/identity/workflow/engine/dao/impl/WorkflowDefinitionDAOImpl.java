@@ -1,5 +1,6 @@
 package org.wso2.carbon.identity.workflow.engine.dao.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.wso2.carbon.database.utils.jdbc.JdbcTemplate;
 import org.wso2.carbon.database.utils.jdbc.exceptions.DataAccessException;
 import org.wso2.carbon.identity.configuration.mgt.core.util.JdbcUtils;
@@ -24,7 +25,7 @@ public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
         {
             JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
             try {
-                jdbcTemplate.executeUpdate(WorkflowDefinitionConstants.SqlQueries.ADD_WORKFLOW_QUERY,
+               jdbcTemplate.executeUpdate(WorkflowDefinitionConstants.SqlQueries.ADD_WORKFLOW_QUERY,
                         preparedStatement -> {
                             preparedStatement.setString(1, workflowDefinition.getWfId());
                             preparedStatement.setString(2, workflowDefinition.getWfName());
@@ -33,6 +34,12 @@ public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
                             preparedStatement.setString(5, workflowDefinition.getApprovalDescription());
                             preparedStatement.setInt(6, tenantId);
                         });
+                if(StringUtils.isEmpty(WF_NAME_COLUMN)){
+                    return "Error occurred while not adding Workflow Name";
+                }
+                if(StringUtils.isEmpty(APPROVAL_SUBJECT_COLUMN)){
+                    return "Error occurred while not adding Approval Subject";
+                }
             } catch (DataAccessException e) {
 
             }

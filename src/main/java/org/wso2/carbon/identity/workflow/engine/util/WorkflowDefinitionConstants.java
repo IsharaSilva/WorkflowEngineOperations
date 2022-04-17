@@ -22,5 +22,8 @@ public class WorkflowDefinitionConstants {
                 "APPROVAL_DESCRIPTION FROM WF_WORKFLOW WHERE TENANT_ID = ? ORDER BY "+
                 "ASC LIMIT? OFFSET?";
 
+        public static final String GET_WORKFLOW_NAME = "SELECT WF_NAME FROM WF_WORKFLOW";
+
+
     }
 }
