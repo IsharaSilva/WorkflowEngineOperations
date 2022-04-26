@@ -1,7 +1,7 @@
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.wso2.carbon.identity.workflow.engine.WorkflowEngine;
-import org.wso2.carbon.identity.workflow.engine.WorkflowEngineDefinition;
+import org.wso2.carbon.identity.workflow.engine.DefaultWorkflowEngineImpl;
 import org.wso2.carbon.identity.workflow.engine.model.WorkflowDefinition;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import static org.testng.Assert.assertFalse;
 
 public class WorkflowEngineDefinitionTest {
 
-    WorkflowEngine workflowEngineDefinition = new WorkflowEngineDefinition();
+    WorkflowEngine workflowEngineDefinition = new DefaultWorkflowEngineImpl();
 
     private static final int tenantId = 1234;
 

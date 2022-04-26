@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface WorkflowDefinitionDAO {
 
     /**
-     * Add new workflow definition.
+     * Add a new workflow definition.
      *
      * @param workflowDefinition workflowDefinition object from workflowDefinition class.
      * @param tenantId           Tenant ID.
@@ -17,7 +17,7 @@ public interface WorkflowDefinitionDAO {
     String addDefinition(WorkflowDefinition workflowDefinition, int tenantId);
 
     /**
-     * Retrieve workflow definition.
+     * Retrieve a workflow definition.
      *
      * @param wfId     ID of workflow to retrieve.
      * @param tenantId Tenant ID.
@@ -37,7 +37,7 @@ public interface WorkflowDefinitionDAO {
     List<WorkflowDefinition> listDefinitions(String searchQuery, int limit, int offSet, int tenantId);
 
     /**
-     * Delete workflow Definition.
+     * Delete a workflow Definition.
      *
      * @param wfId     ID of workflow to remove.
      * @param tenantId Tenant ID.
@@ -45,7 +45,7 @@ public interface WorkflowDefinitionDAO {
     void deleteDefinition(String wfId, int tenantId);
 
     /**
-     * Update existing workflow Definition.
+     * Update an existing workflow Definition.
      *
      * @param wfId                      ID of workflow to update.
      * @param updatedWorkflowDefinition updatedWorkflowDefinition object from Workflow class.

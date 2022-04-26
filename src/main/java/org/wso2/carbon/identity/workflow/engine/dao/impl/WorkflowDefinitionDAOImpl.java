@@ -1,6 +1,5 @@
 package org.wso2.carbon.identity.workflow.engine.dao.impl;
 
-import org.apache.commons.lang.StringUtils;
 import org.wso2.carbon.database.utils.jdbc.JdbcTemplate;
 import org.wso2.carbon.database.utils.jdbc.exceptions.DataAccessException;
 import org.wso2.carbon.identity.configuration.mgt.core.util.JdbcUtils;
@@ -22,7 +21,6 @@ public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
     @Override
     public String addDefinition(WorkflowDefinition workflowDefinition, int tenantId) {
 
-        {
             JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
             try {
                jdbcTemplate.executeUpdate(WorkflowDefinitionConstants.SqlQueries.ADD_WORKFLOW_QUERY,
@@ -34,17 +32,21 @@ public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
                             preparedStatement.setString(5, workflowDefinition.getApprovalDescription());
                             preparedStatement.setInt(6, tenantId);
                         });
-                if(StringUtils.isEmpty(WF_NAME_COLUMN)){
+                /*if(StringUtils.isEmpty(WF_NAME_COLUMN)){
                     return "Error occurred while not adding Workflow Name";
                 }
                 if(StringUtils.isEmpty(APPROVAL_SUBJECT_COLUMN)){
                     return "Error occurred while not adding Approval Subject";
-                }
+                }*/
             } catch (DataAccessException e) {
-
+                try {
+                    throw new WorkflowEngineSQLException(String.format("Error occurred while adding definition" +
+                            "in tenant Id: %d", tenantId), e);
+                } catch (WorkflowEngineSQLException ex) {
+                    ex.printStackTrace();
+                }
             }
-        }
-        return workflowDefinition.getWfId();
+            return workflowDefinition.getWfId();
     }
 
     @Override
@@ -67,9 +69,8 @@ public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
                     });
         } catch (DataAccessException e) {
             try {
-                throw new WorkflowEngineSQLException(String.format("Error occurred while retrieving workflow" +
-                                "workflow Id: %s in tenant Id: %d",
-                        wfId, tenantId), e);
+                throw new WorkflowEngineSQLException(String.format("Error occurred while retrieving workflow from" +
+                                "workflow Id: %s in tenant Id: %d", wfId, tenantId), e);
             } catch (WorkflowEngineSQLException ex) {
                 ex.printStackTrace();
             }
@@ -96,9 +97,9 @@ public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
                         preparedStatement.setInt(4, tenantId);
                     });
         } catch (DataAccessException e) {
-            String errorMessage = "Error occurred while retrieving all workflow Definitions";
             try {
-                throw new WorkflowEngineSQLException(errorMessage, e);
+                throw new WorkflowEngineSQLException(String.format("Error occurred while retrieving all workflow " +
+                        "Definitions in tenant Id: %d.", tenantId),e);
             } catch (WorkflowEngineSQLException ex) {
                 ex.printStackTrace();
             }
@@ -118,9 +119,8 @@ public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
                     });
         } catch (DataAccessException e) {
             try {
-                String errorMessage = String.format("Error while deleting the workflow from wfId:%s, in tenant Id: %d."
-                        , wfId, tenantId);
-                throw new WorkflowEngineSQLException(errorMessage, e);
+                throw new WorkflowEngineSQLException(String.format("Error while deleting the workflow from " +
+                                "wfId:%s, in tenant Id: %d.", wfId, tenantId),e);
             } catch (WorkflowEngineSQLException ex) {
                 ex.printStackTrace();
             }

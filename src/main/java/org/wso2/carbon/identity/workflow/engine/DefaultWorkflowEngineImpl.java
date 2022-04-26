@@ -7,7 +7,7 @@ import org.wso2.carbon.identity.workflow.engine.model.WorkflowDefinition;
 import java.util.List;
 import java.util.Optional;
 
-public class WorkflowEngineDefinition implements WorkflowEngine {
+public class DefaultWorkflowEngineImpl implements WorkflowEngine {
 
     @Override
     public String addDefinition(WorkflowDefinition workflowDefinition, int tenantId) {

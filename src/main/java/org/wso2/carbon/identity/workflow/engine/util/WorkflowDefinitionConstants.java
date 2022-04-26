@@ -8,7 +8,6 @@ public class WorkflowDefinitionConstants {
     public static final String APPROVAL_DESCRIPTION_COLUMN = "APPROVAL_DESCRIPTION";
 
     public static class SqlQueries {
-
         public static final String ADD_WORKFLOW_QUERY = "INSERT INTO WF_WORKFLOW(ID, WF_NAME, DESCRIPTION, " +
                 "APPROVAL_SUBJECT,APPROVAL_DESCRIPTION, TENANT_ID) VALUES (?,?, ?, ?, ?, ?)";
 
@@ -21,9 +20,5 @@ public class WorkflowDefinitionConstants {
         public static final String LIST_WORKFLOWS_QUERY = "SELECT ID, WF_NAME, DESCRIPTION, APPROVAL_SUBJECT, " +
                 "APPROVAL_DESCRIPTION FROM WF_WORKFLOW WHERE TENANT_ID = ? ORDER BY "+
                 "ASC LIMIT? OFFSET?";
-
-        public static final String GET_WORKFLOW_NAME = "SELECT WF_NAME FROM WF_WORKFLOW";
-
-
     }
 }

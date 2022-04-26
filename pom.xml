@@ -119,6 +119,9 @@
                         <obrRepository>NONE</obrRepository>
                         <instructions>
                             <SCM-Revision>${buildNumber}</SCM-Revision>
+                            <Export-Package>
+                                org.wso2.carbon.identity.workflow.engine;
+                            </Export-Package>
                         </instructions>
                     </configuration>
                 </plugin>
