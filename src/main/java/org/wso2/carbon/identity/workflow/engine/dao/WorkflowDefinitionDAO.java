@@ -53,6 +53,7 @@ public interface WorkflowDefinitionDAO {
      */
     void updateDefinition(String wfId, WorkflowDefinition updatedWorkflowDefinition, int tenantId);
 
+    boolean isWorkflowDefinitionExits(String wfName, int tenantId);
 }
 
 

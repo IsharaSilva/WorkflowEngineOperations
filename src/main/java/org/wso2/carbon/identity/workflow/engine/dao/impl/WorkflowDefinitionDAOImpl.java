@@ -6,15 +6,16 @@ import org.wso2.carbon.identity.configuration.mgt.core.util.JdbcUtils;
 import org.wso2.carbon.identity.workflow.engine.dao.WorkflowDefinitionDAO;
 import org.wso2.carbon.identity.workflow.engine.exception.WorkflowEngineSQLException;
 import org.wso2.carbon.identity.workflow.engine.model.WorkflowDefinition;
-import org.wso2.carbon.identity.workflow.engine.util.WorkflowDefinitionConstants;
+import org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants;
 
 import java.util.List;
 import java.util.Optional;
 
-import static org.wso2.carbon.identity.workflow.engine.util.WorkflowDefinitionConstants.APPROVAL_DESCRIPTION_COLUMN;
-import static org.wso2.carbon.identity.workflow.engine.util.WorkflowDefinitionConstants.APPROVAL_SUBJECT_COLUMN;
-import static org.wso2.carbon.identity.workflow.engine.util.WorkflowDefinitionConstants.WF_DESCRIPTION_COLUMN;
-import static org.wso2.carbon.identity.workflow.engine.util.WorkflowDefinitionConstants.WF_NAME_COLUMN;
+import static org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants.APPROVAL_DESCRIPTION_COLUMN;
+import static org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants.APPROVAL_SUBJECT_COLUMN;
+import static org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants.SqlQueries.LOAD_WORKFLOW_DEFINITION_FROM_TENANTID_AND_NAME;
+import static org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants.WF_DESCRIPTION_COLUMN;
+import static org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants.WF_NAME_COLUMN;
 
 public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
 
@@ -23,7 +24,7 @@ public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
 
             JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
             try {
-               jdbcTemplate.executeUpdate(WorkflowDefinitionConstants.SqlQueries.ADD_WORKFLOW_QUERY,
+                jdbcTemplate.executeUpdate(WorkflowEngineConstants.SqlQueries.ADD_WORKFLOW_QUERY,
                         preparedStatement -> {
                             preparedStatement.setString(1, workflowDefinition.getWfId());
                             preparedStatement.setString(2, workflowDefinition.getWfName());
@@ -32,12 +33,6 @@ public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
                             preparedStatement.setString(5, workflowDefinition.getApprovalDescription());
                             preparedStatement.setInt(6, tenantId);
                         });
-                /*if(StringUtils.isEmpty(WF_NAME_COLUMN)){
-                    return "Error occurred while not adding Workflow Name";
-                }
-                if(StringUtils.isEmpty(APPROVAL_SUBJECT_COLUMN)){
-                    return "Error occurred while not adding Approval Subject";
-                }*/
             } catch (DataAccessException e) {
                 try {
                     throw new WorkflowEngineSQLException(String.format("Error occurred while adding definition" +
@@ -55,7 +50,7 @@ public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
         WorkflowDefinition workflowDefinition = null;
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
         try {
-            workflowDefinition = jdbcTemplate.fetchSingleRecord(WorkflowDefinitionConstants.SqlQueries.GET_WORKFLOW,
+            workflowDefinition = jdbcTemplate.fetchSingleRecord(WorkflowEngineConstants.SqlQueries.GET_WORKFLOW,
                     ((resultSet, i) ->
                             new WorkflowDefinition(
                                     resultSet.getString(WF_NAME_COLUMN),
@@ -84,7 +79,7 @@ public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
         List<WorkflowDefinition> workflowDefinitionList = null;
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
         try {
-            workflowDefinitionList = jdbcTemplate.executeQuery(WorkflowDefinitionConstants.SqlQueries.
+            workflowDefinitionList = jdbcTemplate.executeQuery(WorkflowEngineConstants.SqlQueries.
                             LIST_WORKFLOWS_QUERY, (resultSet, rowNumber) -> new WorkflowDefinition(
                             resultSet.getString(WF_NAME_COLUMN),
                             resultSet.getString(WF_DESCRIPTION_COLUMN),
@@ -112,7 +107,7 @@ public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
         try {
-            jdbcTemplate.executeUpdate(WorkflowDefinitionConstants.SqlQueries.DELETE_WORKFLOW_QUERY,
+            jdbcTemplate.executeUpdate(WorkflowEngineConstants.SqlQueries.DELETE_WORKFLOW_QUERY,
                     preparedStatement -> {
                         preparedStatement.setString(1, wfId);
                         preparedStatement.setInt(2, tenantId);
@@ -130,5 +125,49 @@ public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
     @Override
     public void updateDefinition(String wfId, WorkflowDefinition updatedWorkflowDefinition, int tenantId) {
 
+        JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
+        try {
+            jdbcTemplate.executeUpdate(WorkflowEngineConstants.SqlQueries.UPDATE_WORKFLOW_QUERY,
+                    (preparedStatement -> {
+                        preparedStatement.setString(1, wfId);
+                        preparedStatement.setString(2, updatedWorkflowDefinition.getWfName());
+                        preparedStatement.setString(3, updatedWorkflowDefinition.getWfDescription());
+                        preparedStatement.setString(4, updatedWorkflowDefinition.getApprovalSubject());
+                        preparedStatement.setString(5, updatedWorkflowDefinition.getApprovalDescription());
+                        preparedStatement.setInt(6, tenantId);
+                    }));
+        } catch (DataAccessException e) {
+            try {
+                throw new WorkflowEngineSQLException(String.format("Error occurred while updating definition from" +
+                        "wfId:%s, in tenant Id: %d.", wfId, tenantId), e);
+            } catch (WorkflowEngineSQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public boolean isWorkflowDefinitionExits(String wfName, int tenantId) {
+
+        JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
+        String workflowName = null;
+        try {
+            workflowName = jdbcTemplate.fetchSingleRecord(LOAD_WORKFLOW_DEFINITION_FROM_TENANTID_AND_NAME,
+                    (resultSet, rowNumber) ->
+                            resultSet.getString(wfName),
+                    preparedStatement -> {
+                        preparedStatement.setString(1, wfName);
+                        preparedStatement.setInt(2, tenantId);
+                    });
+        } catch (DataAccessException e) {
+            try {
+                throw new WorkflowEngineSQLException(String.format("Error occurred while retrieving workflow from" +
+                        "workflow name: %s in tenant Id: %d", wfName, tenantId), e);
+            } catch (WorkflowEngineSQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return workflowName != null;
     }
 }
+

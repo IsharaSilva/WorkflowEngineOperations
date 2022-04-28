@@ -29,6 +29,7 @@ public class WorkflowEngineDefinitionTest {
                 "Wf Description 2",
                 "Approval subject 2",
                 " Approve Description 2");
+        WorkflowDefinition workflowDefinition3 = new WorkflowDefinition();
 
         return new Object[][]{
                 {
