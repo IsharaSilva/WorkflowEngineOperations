@@ -53,6 +53,13 @@ public interface WorkflowDefinitionDAO {
      */
     void updateDefinition(String wfId, WorkflowDefinition updatedWorkflowDefinition, int tenantId);
 
+    /**
+     * Checks whether the Workflow Definition already exists with the name.
+     *
+     * @param wfName Name of the Workflow Definition.
+     * @param tenantId Tenant ID.
+     * @return Existence of the function library.
+     */
     boolean isWorkflowDefinitionExits(String wfName, int tenantId);
 }
 

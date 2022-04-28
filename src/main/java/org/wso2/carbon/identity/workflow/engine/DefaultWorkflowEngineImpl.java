@@ -84,10 +84,4 @@ public class DefaultWorkflowEngineImpl implements WorkflowEngine {
         }
 
     }
-
-    public boolean isWorkflowDefinitionExits(String wfName, int tenantId) {
-
-        WorkflowDefinitionDAO workflowDefinitionDAO = new WorkflowDefinitionDAOImpl();
-        return workflowDefinitionDAO.isWorkflowDefinitionExits(wfName, tenantId);
-    }
 }

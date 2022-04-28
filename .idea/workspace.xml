@@ -5,21 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a289f726-b560-4587-8776-ce2313e40952" name="Changes" comment="include ApprovalStep class">
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/b/7bd75c2c8f2254c35bf7ba0360788568c90018c5" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/1/b10e167bddf39c7a436edd7ba2a996c39a73b837" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/9/b943f5573d956c8df8c001ab280478a87c53e86e" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/DefaultWorkflowEngineImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/DefaultWorkflowEngineImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/dao/WorkflowDefinitionDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/dao/WorkflowDefinitionDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/dao/impl/WorkflowDefinitionDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/dao/impl/WorkflowDefinitionDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/model/ApprovalStep.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/model/ApprovalStepBuilder.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/model/ApprovalStepBuilderImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/model/User.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/model/WorkflowDefinition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/model/WorkflowDefinition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/util/WorkflowDefinitionConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/wso2/carbon/identity/workflow/engine/util/WorkflowEngineConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/WorkflowEngineDefinitionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/WorkflowEngineDefinitionTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

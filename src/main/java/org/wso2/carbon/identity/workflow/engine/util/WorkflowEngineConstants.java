@@ -8,6 +8,7 @@ public class WorkflowEngineConstants {
     public static final String APPROVAL_DESCRIPTION_COLUMN = "APPROVAL_DESCRIPTION";
 
     public static class SqlQueries {
+
         public static final String ADD_WORKFLOW_QUERY = "INSERT INTO WF_WORKFLOW(ID, WF_NAME, DESCRIPTION, " +
                 "APPROVAL_SUBJECT,APPROVAL_DESCRIPTION, TENANT_ID) VALUES (?,?, ?, ?, ?, ?)";
 
@@ -33,7 +34,7 @@ public class WorkflowEngineConstants {
     public enum ErrorMessage {
         ERROR_REQUIRE_WORKFLOW_DEFINITION_NAME("Workflow Definition name is required"),
         ERROR_REQUIRE_APPROVAL_SUBJECT("SApproval subject is required"),
-        ERROR_ALREADY_EXIST_WORKFLOW_DEFINITION_NAME( "Already a Workflow Definition available with the name: %s.");
+        ERROR_ALREADY_EXIST_WORKFLOW_DEFINITION_NAME("Already a Workflow Definition available with the name: %s.");
         private final String message;
 
         ErrorMessage(String message) {
