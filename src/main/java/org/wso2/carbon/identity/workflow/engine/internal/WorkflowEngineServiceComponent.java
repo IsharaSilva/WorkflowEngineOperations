@@ -8,7 +8,7 @@ import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
 import org.wso2.carbon.identity.workflow.engine.DefaultWorkflowEngineImpl;
 import org.wso2.carbon.identity.workflow.engine.WorkflowEngine;
-import org.wso2.carbon.identity.workflow.mgt.WorkFlowExecutorManager;
+import org.wso2.carbon.identity.workflow.mgt.WorkflowManagementService;
 
 public class WorkflowEngineServiceComponent {
 
@@ -18,16 +18,19 @@ public class WorkflowEngineServiceComponent {
        WorkflowEngine workflowEngine = new DefaultWorkflowEngineImpl();
        bundleContext.registerService(WorkflowEngine.class, workflowEngine, null);
        WorkflowEngineServiceDataHolder.getInstance().setWorkflowService(workflowEngine);
-       WorkflowEngineServiceDataHolder.getInstance().setBundleContext(bundleContext);
    }
 
     @Reference(
             name = "org.wso2.carbon.identity.workflow.mgt",
-            service = org.wso2.carbon.identity.workflow.mgt.WorkFlowExecutorManager.class,
+            service = org.wso2.carbon.identity.workflow.mgt.WorkflowManagementService.class,
             cardinality = ReferenceCardinality.MANDATORY,
             policy = ReferencePolicy.DYNAMIC,
-            unbind = "")
-    protected void setWorkFlowExecutorManager(WorkFlowExecutorManager workFlowExecutorManager) {
-        WorkflowEngineServiceDataHolder.getInstance().setWorkFlowExecutorManager(workFlowExecutorManager);
+            unbind = "unsetWorkflowManagementService")
+    protected void setWorkflowManagementService(WorkflowManagementService workflowManagementService) {
+        WorkflowEngineServiceDataHolder.getInstance().setWorkflowManagementService(workflowManagementService);
+    }
+
+    protected void unsetWorkflowManagementService(WorkflowManagementService workflowManagementService) {
+        WorkflowEngineServiceDataHolder.getInstance().setWorkflowManagementService(null);
     }
 }
