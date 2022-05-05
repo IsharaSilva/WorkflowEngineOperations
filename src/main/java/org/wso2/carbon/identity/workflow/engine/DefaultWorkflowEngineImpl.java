@@ -82,6 +82,5 @@ public class DefaultWorkflowEngineImpl implements WorkflowEngine {
             throw WorkflowEngineExceptionManagementUtil.handleClientException(
                     WorkflowEngineConstants.ErrorMessage.ERROR_REQUIRE_APPROVAL_SUBJECT);
         }
-
     }
 }

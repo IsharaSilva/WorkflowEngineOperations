@@ -19,6 +19,27 @@
             <artifactId>org.wso2.carbon.identity.configuration.mgt.core</artifactId>
             <version>5.18.187</version>
         </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.identity.framework</groupId>
+            <artifactId>identity-framework</artifactId>
+            <version>5.18.187</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.identity.framework</groupId>
+            <artifactId>org.wso2.carbon.user.mgt.common</artifactId>
+            <version>5.18.187</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wso2.carbon.identity.framework</groupId>
+            <artifactId>org.wso2.carbon.user.mgt</artifactId>
+            <version>5.18.187</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.identity.framework</groupId>
+            <artifactId>org.wso2.carbon.identity.workflow.mgt</artifactId>
+            <version>5.20.319-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <repositories>
