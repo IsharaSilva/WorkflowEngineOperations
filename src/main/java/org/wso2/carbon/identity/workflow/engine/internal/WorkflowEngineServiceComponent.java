@@ -33,4 +33,18 @@ public class WorkflowEngineServiceComponent {
     protected void unsetWorkflowManagementService(WorkflowManagementService workflowManagementService) {
         WorkflowEngineServiceDataHolder.getInstance().setWorkflowManagementService(null);
     }
+
+    @Reference(
+            name = "org.wso2.carbon.identity.workflow.mgt",
+            service = org.wso2.carbon.identity.workflow.mgt.WorkflowExecutorManagerService.class,
+            cardinality = ReferenceCardinality.MANDATORY,
+            policy = ReferencePolicy.DYNAMIC,
+            unbind = "unsetWorkflowExecutorManagerService")
+    protected void setWorkflowExecutorManagerService(WorkflowExecutorManagerService workflowExecutorManagerService) {
+        WorkflowEngineServiceDataHolder.getInstance().setWorkflowExecutorManagerService(workflowExecutorManagerService);
+    }
+
+    protected void unsetWorkflowExecutorManagerService(WorkflowExecutorManagerService workflowExecutorManagerService) {
+        WorkflowEngineServiceDataHolder.getInstance().setWorkflowExecutorManagerService(workflowExecutorManagerService);
+    }
 }

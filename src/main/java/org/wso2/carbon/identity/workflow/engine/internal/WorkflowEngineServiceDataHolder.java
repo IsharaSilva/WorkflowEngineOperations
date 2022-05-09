@@ -10,6 +10,7 @@ public class WorkflowEngineServiceDataHolder {
     private WorkflowManagementService workflowManagementService;
 
     private WorkflowEngine workflowEngine = null;
+    private WorkflowExecutorManagerService workflowExecutorManagerService;
 
     private WorkflowEngineServiceDataHolder() {
 
@@ -37,5 +38,15 @@ public class WorkflowEngineServiceDataHolder {
     public void setWorkflowService(WorkflowEngine workflowEngine) {
 
         this.workflowEngine = workflowEngine;
+    }
+
+    public WorkflowExecutorManagerService getWorkflowExecutorManagerService() {
+
+        return workflowExecutorManagerService;
+    }
+
+    public void setWorkflowExecutorManagerService(
+            WorkflowExecutorManagerService workflowExecutorManagerService) {
+        this.workflowExecutorManagerService = workflowExecutorManagerService;
     }
 }
