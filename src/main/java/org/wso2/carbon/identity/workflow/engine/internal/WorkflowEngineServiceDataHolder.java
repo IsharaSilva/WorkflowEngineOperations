@@ -1,7 +1,12 @@
 package org.wso2.carbon.identity.workflow.engine.internal;
 
 import org.wso2.carbon.identity.workflow.engine.WorkflowEngine;
+import org.wso2.carbon.identity.workflow.mgt.WorkflowExecutorManagerService;
 import org.wso2.carbon.identity.workflow.mgt.WorkflowManagementService;
+import org.wso2.carbon.identity.workflow.mgt.workflow.AbstractWorkflow;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class WorkflowEngineServiceDataHolder {
 
@@ -48,5 +53,9 @@ public class WorkflowEngineServiceDataHolder {
     public void setWorkflowExecutorManagerService(
             WorkflowExecutorManagerService workflowExecutorManagerService) {
         this.workflowExecutorManagerService = workflowExecutorManagerService;
+    }
+    private Map<String, Map<String,AbstractWorkflow>> workflowImpls = new HashMap<String, Map<String,AbstractWorkflow>>();
+    public Map<String, Map<String, AbstractWorkflow>> getWorkflowImpls() {
+        return workflowImpls;
     }
 }
