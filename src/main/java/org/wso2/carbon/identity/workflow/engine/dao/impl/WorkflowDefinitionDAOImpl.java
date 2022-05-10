@@ -13,7 +13,6 @@ import java.util.Optional;
 
 import static org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants.APPROVAL_DESCRIPTION_COLUMN;
 import static org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants.APPROVAL_SUBJECT_COLUMN;
-import static org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants.SqlQueries.LOAD_WORKFLOW_DEFINITION_FROM_TENANTID_AND_NAME;
 import static org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants.WF_DESCRIPTION_COLUMN;
 import static org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants.WF_NAME_COLUMN;
 
@@ -152,7 +151,8 @@ public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
         String workflowName = null;
         try {
-            workflowName = jdbcTemplate.fetchSingleRecord(LOAD_WORKFLOW_DEFINITION_FROM_TENANTID_AND_NAME,
+            workflowName = jdbcTemplate.fetchSingleRecord(WorkflowEngineConstants.SqlQueries.
+                            LOAD_WORKFLOW_DEFINITION_FROM_TENANT_ID_AND_NAME,
                     (resultSet, rowNumber) ->
                             resultSet.getString(wfName),
                     preparedStatement -> {

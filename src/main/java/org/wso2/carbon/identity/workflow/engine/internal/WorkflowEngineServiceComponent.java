@@ -8,6 +8,7 @@ import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
 import org.wso2.carbon.identity.workflow.engine.DefaultWorkflowEngineImpl;
 import org.wso2.carbon.identity.workflow.engine.WorkflowEngine;
+import org.wso2.carbon.identity.workflow.mgt.WorkflowExecutorManagerService;
 import org.wso2.carbon.identity.workflow.mgt.WorkflowManagementService;
 
 public class WorkflowEngineServiceComponent {

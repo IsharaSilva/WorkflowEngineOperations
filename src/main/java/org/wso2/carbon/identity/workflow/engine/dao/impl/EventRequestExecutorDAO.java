@@ -33,7 +33,7 @@ public class EventRequestExecutorDAO {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
         try {
-            jdbcTemplate.executeUpdate(WorkflowEngineConstants.SqlQueries.ADD_APPROVAL_LIST_RELATED_TO_USER,
+            jdbcTemplate.executeUpdate(WorkflowEngineConstants.SqlQueries.ADD_CURRENT_STEP_FOR_EVENT,
                     preparedStatement -> {
                         preparedStatement.setString(1, eventId);
                         preparedStatement.setInt(2, currentStep);
