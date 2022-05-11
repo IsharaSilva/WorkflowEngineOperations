@@ -6,7 +6,7 @@ import org.wso2.carbon.identity.configuration.mgt.core.util.JdbcUtils;
 import org.wso2.carbon.identity.workflow.engine.exception.WorkflowEngineSQLException;
 import org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants;
 
-public class EventRequestExecutorDAO {
+public class WorkflowEventRequestDAO {
 
     public void addApproversOfRequest(String workflowId, String requestId, String approvertype, String approver) {
 

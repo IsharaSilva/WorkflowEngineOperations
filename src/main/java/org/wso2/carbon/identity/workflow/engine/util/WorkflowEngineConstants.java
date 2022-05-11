@@ -39,7 +39,7 @@ public class WorkflowEngineConstants {
 
     public enum ErrorMessage {
         ERROR_REQUIRE_WORKFLOW_DEFINITION_NAME("Workflow Definition name is required"),
-        ERROR_REQUIRE_APPROVAL_SUBJECT("SApproval subject is required"),
+        ERROR_REQUIRE_APPROVAL_SUBJECT("Approval subject is required"),
         ERROR_ALREADY_EXIST_WORKFLOW_DEFINITION_NAME("Already a Workflow Definition available with the name: %s.");
         private final String message;
 
@@ -61,8 +61,6 @@ public class WorkflowEngineConstants {
     }
 
     public enum EventState{
-        PENDING,
-        APPROVED,
-        REJECTED
+        PENDING
     }
 }

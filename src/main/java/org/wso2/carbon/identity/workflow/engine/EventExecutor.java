@@ -42,37 +42,37 @@ public class EventExecutor extends AbstractWorkflow {
         return null;
     }
 
-    public EventExecutorResult executeRequest(WorkflowRequest workFlowRequest) {
+    public EventExecutorResult executeWorkflowRequest(WorkflowRequest workFlowRequest) {
 
         WorkflowExecutorManagerService workFlowExecutorManagerService = new WorkflowExecutorManagerServiceImpl();
         WorkflowManagementService workflowManagementService = new WorkflowManagementServiceImpl();
         OMElement xmlRequest = WorkflowRequestBuilder.buildXMLRequest(workFlowRequest);
         List<WorkflowAssociation> associations;
         try {
-            associations = workFlowExecutorManagerService.getWorkflowAssociationsForRequest(workFlowRequest.getEventType(),
-                    workFlowRequest.getTenantId());
+            associations = workFlowExecutorManagerService.getWorkflowAssociationsForRequest(
+                    workFlowRequest.getEventType(), workFlowRequest.getTenantId());
         } catch (InternalWorkflowException e) {
             throw new RuntimeException(e);
         }
 
-        boolean requestSaved = false;
         for (WorkflowAssociation association : associations) {
             try {
-                AXIOMXPath axiomxPath = new AXIOMXPath(association.getAssociationCondition());
-                if (axiomxPath.booleanValueOf(xmlRequest)) {
+                AXIOMXPath xPath = new AXIOMXPath(association.getAssociationCondition());
+                if (xPath.booleanValueOf(xmlRequest)) {
 
-                        int tenant = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId();
-                        String currentUser = PrivilegedCarbonContext.getThreadLocalCarbonContext().getUsername();
-                        workFlowExecutorManagerService.addWorkflowRequest(workFlowRequest, currentUser, tenant);
+                    int tenant = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId();
+                    String currentUser = PrivilegedCarbonContext.getThreadLocalCarbonContext().getUsername();
+                    workFlowExecutorManagerService.addWorkflowRequest(workFlowRequest, currentUser, tenant);
 
+                    Workflow workflow = workflowManagementService.getWorkflow(association.getWorkflowId());
+                    AbstractWorkflow newTemplateImplementation = WorkflowEngineServiceDataHolder.getInstance()
+                            .getWorkflowImpls().get(workflow.getTemplateId()).get(workflow.getWorkflowImplId());
+                    List<Parameter> parameterList = workflowManagementService.getWorkflowParameters(
+                            association.getWorkflowId());
                     String relationshipId = UUID.randomUUID().toString();
                     WorkflowRequest request = workFlowRequest.clone();
                     request.setUuid(relationshipId);
-                    Workflow workflow = workflowManagementService.getWorkflow(association.getWorkflowId());
-                    AbstractWorkflow template = WorkflowEngineServiceDataHolder.getInstance()
-                            .getWorkflowImpls().get(workflow.getTemplateId()).get(workflow.getWorkflowImplId());
-                    List<Parameter> parameterList = workflowManagementService.getWorkflowParameters(association.getWorkflowId());
-                    template.execute(request, parameterList);
+                    newTemplateImplementation.execute(request, parameterList);
                     workFlowExecutorManagerService.addNewRequestRelationship(relationshipId,
                             association.getWorkflowId(), workFlowRequest.getUuid(),
                             WorkflowEngineConstants.EventState.PENDING.toString(), workFlowRequest.getTenantId());
@@ -86,8 +86,7 @@ public class EventExecutor extends AbstractWorkflow {
                 throw new RuntimeException(e);
             }
         }
-        EventExecutorResult eventExecutorResult = new EventExecutorResult(EventResultState.STARTED_ASSOCIATION);
-        return eventExecutorResult;
+        return new EventExecutorResult(EventResultState.STARTED_ASSOCIATION);
     }
 
           /*  String workflowId = association.getWorkflowId();
@@ -118,6 +117,11 @@ public class EventExecutor extends AbstractWorkflow {
         }*/
 
 
+    @Override
+    public void deploy(List<Parameter> parameterList) throws WorkflowException {
+
+        super.deploy(parameterList);
+    }
 }
 
 
