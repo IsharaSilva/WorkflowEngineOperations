@@ -3,32 +3,35 @@ package org.wso2.carbon.identity.workflow.engine.dao.impl;
 import org.wso2.carbon.database.utils.jdbc.JdbcTemplate;
 import org.wso2.carbon.database.utils.jdbc.exceptions.DataAccessException;
 import org.wso2.carbon.identity.configuration.mgt.core.util.JdbcUtils;
+import org.wso2.carbon.identity.workflow.engine.dao.WorkflowEventRequestDAO;
 import org.wso2.carbon.identity.workflow.engine.exception.WorkflowEngineSQLException;
 import org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants;
 
-public class WorkflowEventRequestDAO {
+public class WorkflowEventRequestDAOImpl implements WorkflowEventRequestDAO {
 
-    public void addApproversOfRequest(String workflowId, String requestId, String approvertype, String approver) {
+    @Override
+    public void addApproversOfRequest(String eventId, String workflowId, String approvertype, String approver) {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
         try {
-            jdbcTemplate.executeUpdate(WorkflowEngineConstants.SqlQueries.ADD_APPROVAL_LIST_RELATED_TO_USER,
+            jdbcTemplate.executeUpdate(WorkflowEngineConstants.SqlQueries.ADD_APPROVAL_UserList_RELATED_TO_USER,
                     preparedStatement -> {
-                        preparedStatement.setString(1, workflowId);
-                        preparedStatement.setString(2, requestId);
+                        preparedStatement.setString(1, eventId);
+                        preparedStatement.setString(2, workflowId);
                         preparedStatement.setString(3, approvertype);
                         preparedStatement.setString(4, approver);
                     });
         } catch (DataAccessException e) {
             try {
                 throw new WorkflowEngineSQLException(String.format("Error occurred while adding request details" +
-                        "in request Id: %d", requestId), e);
+                        "in request Id: %s  & workflowId: %s", eventId, workflowId), e);
             } catch (WorkflowEngineSQLException ex) {
                 ex.printStackTrace();
             }
         }
     }
 
+    @Override
     public void createStatesOfRequest(String eventId, int currentStep) {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();

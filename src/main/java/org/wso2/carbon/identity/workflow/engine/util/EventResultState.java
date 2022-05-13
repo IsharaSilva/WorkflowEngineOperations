@@ -14,10 +14,17 @@ public enum EventResultState {
 
             return false;
         }
+    },
+    CONDITION_FAILED {
+        @Override
+        public boolean state() {
+
+            return true;
+        }
     };
 
     /**
-     * Defautl State of Result
+     * Default State of Result
      *
      * @return boolean
      */
