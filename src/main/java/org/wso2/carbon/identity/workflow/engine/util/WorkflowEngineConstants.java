@@ -29,7 +29,7 @@ public class WorkflowEngineConstants {
                 "SELECT WF_NAME, DESCRIPTION, APPROVAL_SUBJECT, APPROVAL_DESCRIPTION, TENANT_ID FROM WF_WORKFLOW " +
                         "WHERE TENANT_ID = ? AND WF_NAME = ?";
 
-        public static final String ADD_APPROVAL_LIST_RELATED_TO_USER = "INSERT INTO WF_WORKFLOW_APPROVAL_RELATION " +
+        public static final String ADD_APPROVAL_UserList_RELATED_TO_USER = "INSERT INTO WF_WORKFLOW_APPROVAL_RELATION " +
                 "(WORKFLOW_ID, REQUEST_ID, APPROVER_TYPE, APPROVER_NAME) VALUES (?, ?, ?, ?) ";
 
         public static final String ADD_CURRENT_STEP_FOR_EVENT = "INSERT INTO WF_WORKFLOW_APPROVAL " +
@@ -39,7 +39,7 @@ public class WorkflowEngineConstants {
 
     public enum ErrorMessage {
         ERROR_REQUIRE_WORKFLOW_DEFINITION_NAME("Workflow Definition name is required"),
-        ERROR_REQUIRE_APPROVAL_SUBJECT("SApproval subject is required"),
+        ERROR_REQUIRE_APPROVAL_SUBJECT("Approval subject is required"),
         ERROR_ALREADY_EXIST_WORKFLOW_DEFINITION_NAME("Already a Workflow Definition available with the name: %s.");
         private final String message;
 
@@ -61,8 +61,10 @@ public class WorkflowEngineConstants {
     }
 
     public enum EventState{
-        PENDING,
-        APPROVED,
-        REJECTED
+        PENDING
+    }
+
+    public static class ParameterName {
+        public static final String STEPS_USER_AND_ROLE = "UserAndRole" ;
     }
 }
