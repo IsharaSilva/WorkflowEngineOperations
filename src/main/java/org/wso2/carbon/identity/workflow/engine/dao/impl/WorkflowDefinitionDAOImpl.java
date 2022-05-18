@@ -4,7 +4,7 @@ import org.wso2.carbon.database.utils.jdbc.JdbcTemplate;
 import org.wso2.carbon.database.utils.jdbc.exceptions.DataAccessException;
 import org.wso2.carbon.identity.configuration.mgt.core.util.JdbcUtils;
 import org.wso2.carbon.identity.workflow.engine.dao.WorkflowDefinitionDAO;
-import org.wso2.carbon.identity.workflow.engine.exception.WorkflowEngineSQLException;
+import org.wso2.carbon.identity.workflow.engine.exception.WorkflowEngineServerException;
 import org.wso2.carbon.identity.workflow.engine.model.WorkflowDefinition;
 import org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants;
 
@@ -34,9 +34,9 @@ public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
                         });
             } catch (DataAccessException e) {
                 try {
-                    throw new WorkflowEngineSQLException(String.format("Error occurred while adding definition" +
+                    throw new WorkflowEngineServerException(String.format("Error occurred while adding definition" +
                             "in tenant Id: %d", tenantId), e);
-                } catch (WorkflowEngineSQLException ex) {
+                } catch (WorkflowEngineServerException ex) {
                     ex.printStackTrace();
                 }
             }
@@ -63,9 +63,9 @@ public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
                     });
         } catch (DataAccessException e) {
             try {
-                throw new WorkflowEngineSQLException(String.format("Error occurred while retrieving workflow from" +
+                throw new WorkflowEngineServerException(String.format("Error occurred while retrieving workflow from" +
                                 "workflow Id: %s in tenant Id: %d", wfId, tenantId), e);
-            } catch (WorkflowEngineSQLException ex) {
+            } catch (WorkflowEngineServerException ex) {
                 ex.printStackTrace();
             }
         }
@@ -92,9 +92,9 @@ public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
                     });
         } catch (DataAccessException e) {
             try {
-                throw new WorkflowEngineSQLException(String.format("Error occurred while retrieving all workflow " +
+                throw new WorkflowEngineServerException(String.format("Error occurred while retrieving all workflow " +
                         "Definitions in tenant Id: %d.", tenantId),e);
-            } catch (WorkflowEngineSQLException ex) {
+            } catch (WorkflowEngineServerException ex) {
                 ex.printStackTrace();
             }
         }
@@ -113,9 +113,9 @@ public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
                     });
         } catch (DataAccessException e) {
             try {
-                throw new WorkflowEngineSQLException(String.format("Error while deleting the workflow from " +
+                throw new WorkflowEngineServerException(String.format("Error while deleting the workflow from " +
                                 "wfId:%s, in tenant Id: %d.", wfId, tenantId),e);
-            } catch (WorkflowEngineSQLException ex) {
+            } catch (WorkflowEngineServerException ex) {
                 ex.printStackTrace();
             }
         }
@@ -137,9 +137,9 @@ public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
                     }));
         } catch (DataAccessException e) {
             try {
-                throw new WorkflowEngineSQLException(String.format("Error occurred while updating definition from" +
+                throw new WorkflowEngineServerException(String.format("Error occurred while updating definition from" +
                         "wfId:%s, in tenant Id: %d.", wfId, tenantId), e);
-            } catch (WorkflowEngineSQLException ex) {
+            } catch (WorkflowEngineServerException ex) {
                 ex.printStackTrace();
             }
         }
@@ -161,9 +161,9 @@ public class WorkflowDefinitionDAOImpl implements WorkflowDefinitionDAO {
                     });
         } catch (DataAccessException e) {
             try {
-                throw new WorkflowEngineSQLException(String.format("Error occurred while retrieving workflow from" +
+                throw new WorkflowEngineServerException(String.format("Error occurred while retrieving workflow from" +
                         "workflow name: %s in tenant Id: %d", wfName, tenantId), e);
-            } catch (WorkflowEngineSQLException ex) {
+            } catch (WorkflowEngineServerException ex) {
                 ex.printStackTrace();
             }
         }

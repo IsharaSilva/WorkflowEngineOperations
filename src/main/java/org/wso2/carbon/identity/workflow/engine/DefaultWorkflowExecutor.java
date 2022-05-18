@@ -10,6 +10,7 @@ public class DefaultWorkflowExecutor implements WorkFlowExecutor {
 
     private List<Parameter> parameterList;
     private static final String EXECUTOR_NAME = "";
+    private DefaultWorkflowEventRequest defaultWorkflowEventRequest;
 
     @Override
     public boolean canHandle(WorkflowRequest workflowRequest) {
