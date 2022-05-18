@@ -10,8 +10,7 @@ import org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants;
 public class WorkflowEventRequestDAOImpl implements WorkflowEventRequestDAO {
 
     @Override
-    public void addApproversOfRequest(String eventId, String workflowId, String approverType, String approverName)
-            throws WorkflowEngineServerException {
+    public String addApproversOfRequest(String eventId, String workflowId, String approverType, String approverName) {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
         try {
@@ -25,12 +24,17 @@ public class WorkflowEventRequestDAOImpl implements WorkflowEventRequestDAO {
         } catch (DataAccessException e) {
             String errorMessage = String.format("Error occurred while adding request details" +
                     "in eventId: %s  & workflowId: %s", eventId, workflowId);
-            throw new WorkflowEngineServerException(errorMessage);
+            try {
+                throw new WorkflowEngineServerException(errorMessage);
+            } catch (WorkflowEngineServerException ex) {
+                throw new RuntimeException(ex);
+            }
         }
+        return eventId;
     }
 
     @Override
-    public void createStatesOfRequest(String eventId, int currentStep) throws WorkflowEngineServerException {
+    public void createStatesOfRequest(String eventId, int currentStep) {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
         try {
@@ -42,7 +46,11 @@ public class WorkflowEventRequestDAOImpl implements WorkflowEventRequestDAO {
         } catch (DataAccessException e) {
             String errorMessage = String.format("Error occurred while adding request approval steps" +
                     "in event Id: %s", eventId);
-            throw new WorkflowEngineServerException(errorMessage);
+            try {
+                throw new WorkflowEngineServerException(errorMessage);
+            } catch (WorkflowEngineServerException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 }

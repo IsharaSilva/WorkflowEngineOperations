@@ -8,9 +8,7 @@ import java.util.List;
 
 public class DefaultWorkflowExecutor implements WorkFlowExecutor {
 
-    private List<Parameter> parameterList;
     private static final String EXECUTOR_NAME = "";
-    private DefaultWorkflowEventRequest defaultWorkflowEventRequest;
 
     @Override
     public boolean canHandle(WorkflowRequest workflowRequest) {
@@ -20,13 +18,18 @@ public class DefaultWorkflowExecutor implements WorkFlowExecutor {
 
     @Override
     public void initialize(List<Parameter> parameterList) {
-
-        this.parameterList = parameterList;
     }
 
     @Override
     public void execute(WorkflowRequest workflowRequest) {
-        //TODO implementation
+
+        DefaultWorkflowEventRequest defaultWorkflowEventRequest = new DefaultWorkflowEventRequest();
+        String eventId = defaultWorkflowEventRequest.addApproversOfRequests(workflowRequest, null
+                , null, null);
+
+        if (eventId != null) {
+            defaultWorkflowEventRequest.createStatesOfRequest(eventId, 0);
+        }
     }
 
     @Override

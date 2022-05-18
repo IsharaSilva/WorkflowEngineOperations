@@ -1,7 +1,5 @@
 package org.wso2.carbon.identity.workflow.engine.dao;
 
-import org.wso2.carbon.identity.workflow.engine.exception.WorkflowEngineServerException;
-
 public interface WorkflowEventRequestDAO {
 
     /**
@@ -11,8 +9,9 @@ public interface WorkflowEventRequestDAO {
      * @param workflowId   workflow ID.
      * @param approverType the type of the approved user EX: user or Role.
      * @param approverName the value of the approver type.
+     * @return
      */
-    void addApproversOfRequest(String eventId, String workflowId, String approverType, String approverName) throws WorkflowEngineServerException;
+    String addApproversOfRequest(String eventId, String workflowId, String approverType, String approverName);
 
     /**
      * Add what step to approve.
@@ -20,5 +19,5 @@ public interface WorkflowEventRequestDAO {
      * @param eventId     the request ID that need to be checked.
      * @param currentStep the current step.
      */
-    void createStatesOfRequest(String eventId, int currentStep) throws WorkflowEngineServerException;
+    void createStatesOfRequest(String eventId, int currentStep);
 }

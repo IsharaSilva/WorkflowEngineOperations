@@ -6,18 +6,24 @@ import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
+import org.wso2.carbon.identity.workflow.engine.ApprovalEventRequest;
 import org.wso2.carbon.identity.workflow.engine.DefaultWorkflowEngineImpl;
+import org.wso2.carbon.identity.workflow.engine.DefaultWorkflowExecutor;
 import org.wso2.carbon.identity.workflow.engine.WorkflowEngine;
 import org.wso2.carbon.identity.workflow.mgt.WorkflowExecutorManagerService;
 import org.wso2.carbon.identity.workflow.mgt.WorkflowManagementService;
+import org.wso2.carbon.identity.workflow.mgt.workflow.AbstractWorkflow;
 
 public class WorkflowEngineServiceComponent {
 
    @Activate
-   protected void activate(ComponentContext context){
+   protected void activate(ComponentContext context) {
+
        BundleContext bundleContext = context.getBundleContext();
        WorkflowEngine workflowEngine = new DefaultWorkflowEngineImpl();
        bundleContext.registerService(WorkflowEngine.class, workflowEngine, null);
+       bundleContext.registerService(AbstractWorkflow.class, new ApprovalEventRequest(DefaultWorkflowExecutor.class),
+               null);
        WorkflowEngineServiceDataHolder.getInstance().setWorkflowService(workflowEngine);
    }
 
