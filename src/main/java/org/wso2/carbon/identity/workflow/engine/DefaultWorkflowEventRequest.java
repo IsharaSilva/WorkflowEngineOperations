@@ -25,13 +25,10 @@ public class DefaultWorkflowEventRequest {
     /**
      * Add who approves the relevant request.
      *
-     * @param request      request object from WorkflowRequest.
-     * @param workflowId   workflow ID.
-     * @param approverType the type of the approved user EX: user or Role.
-     * @param approverName the value of the approver type.
+     * @param request request object from WorkflowRequest.
      * @return eventId.
      */
-    public String addApproversOfRequests(WorkflowRequest request, String workflowId, String approverType, String approverName) {
+    public String addApproversOfRequests(WorkflowRequest request) {
 
         WorkflowManagementService workflowManagementService = new WorkflowManagementServiceImpl();
         String eventId = request.getUuid();
@@ -43,6 +40,9 @@ public class DefaultWorkflowEventRequest {
         } catch (InternalWorkflowException e) {
             throw new WorkflowEngineException("The associations are not connecting with any request");
         }
+        String workflowId = null;
+        String approverType = null;
+        String approverName = null;
         for (WorkflowAssociation association : associations) {
             try {
                 workflowId = String.valueOf(workflowManagementService.getWorkflow(association.getWorkflowId()));
@@ -66,7 +66,6 @@ public class DefaultWorkflowEventRequest {
             }
         }
         return workflowEventRequestDAO.addApproversOfRequest(eventId, workflowId, approverType, approverName);
-
     }
 
     /**
