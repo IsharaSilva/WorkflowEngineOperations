@@ -1,9 +1,8 @@
 package org.wso2.carbon.identity.workflow.engine;
 
-import org.apache.commons.lang.StringUtils;
 import org.wso2.carbon.identity.workflow.engine.dao.WorkflowEventRequestDAO;
 import org.wso2.carbon.identity.workflow.engine.dao.impl.WorkflowEventRequestDAOImpl;
-import org.wso2.carbon.identity.workflow.engine.exception.WorkflowEngineRuntimeException;
+import org.wso2.carbon.identity.workflow.engine.exception.WorkflowEngineException;
 import org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants;
 import org.wso2.carbon.identity.workflow.mgt.WorkflowExecutorManagerService;
 import org.wso2.carbon.identity.workflow.mgt.WorkflowExecutorManagerServiceImpl;
@@ -15,61 +14,74 @@ import org.wso2.carbon.identity.workflow.mgt.dto.WorkflowRequest;
 import org.wso2.carbon.identity.workflow.mgt.exception.InternalWorkflowException;
 import org.wso2.carbon.identity.workflow.mgt.exception.WorkflowException;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class DefaultWorkflowEventRequest {
-    private List<Parameter> parameterList;
-    public void executeWorkflow(WorkflowRequest request, String approverType, String approverName) {
 
-        WorkflowEventRequestDAO workflowEventRequestDAO = new WorkflowEventRequestDAOImpl();
-        List<WorkflowAssociation> associations;
-        WorkflowExecutorManagerService WorkflowExecutorManagerService = new WorkflowExecutorManagerServiceImpl();
-        try {
-            associations = WorkflowExecutorManagerService.getWorkflowAssociationsForRequest(
-                    request.getEventType(), request.getTenantId());
-        } catch (InternalWorkflowException e) {
-            throw new WorkflowEngineRuntimeException("The associations are not connecting with any request");
-        }
+    private List<Parameter> parameterList;
+    WorkflowEventRequestDAO workflowEventRequestDAO = new WorkflowEventRequestDAOImpl();
+
+    /**
+     * Add who approves the relevant request.
+     *
+     * @param request request object from WorkflowRequest.
+     * @return eventId.
+     */
+    public String addApproversOfRequests(WorkflowRequest request) {
+
         WorkflowManagementService workflowManagementService = new WorkflowManagementServiceImpl();
         String eventId = request.getUuid();
+        List<WorkflowAssociation> associations;
+        WorkflowExecutorManagerService workflowExecutorManagerService = new WorkflowExecutorManagerServiceImpl();
+        try {
+            associations = workflowExecutorManagerService.getWorkflowAssociationsForRequest(
+                    request.getEventType(), request.getTenantId());
+        } catch (InternalWorkflowException e) {
+            throw new WorkflowEngineException("The associations are not connecting with any request");
+        }
+        String workflowId = null;
+        String approverType = null;
+        String approverName = null;
         for (WorkflowAssociation association : associations) {
-            String workflowId;
             try {
                 workflowId = String.valueOf(workflowManagementService.getWorkflow(association.getWorkflowId()));
             } catch (WorkflowException e) {
-                throw new WorkflowEngineRuntimeException("Thw workflow Id is not valid");
+                throw new WorkflowEngineException("The workflow Id is not valid");
             }
             for (Parameter parameter : this.parameterList) {
-                if (parameter.getParamName().equals(WorkflowEngineConstants.ParameterName.STEPS_USER_AND_ROLE)) {
+                if (parameter.getParamName().equals(WorkflowEngineConstants.ParameterName.USER_AND_ROLE_STEP)) {
                     //use split method to get string last word EX: UserAndRole-step-1-roles -> lastWord=roles
                     String[] stepName = parameter.getqName().split("-");
                     approverType = stepName[stepName.length - 1];
                 }
                 String approver = parameter.getParamValue();
-                String[] approvers = null;
-                if (StringUtils.isNotBlank(approver)) {
-                    approvers = approver.split(",");
-                }
+                String[] approvers = approver.split(",");
                 if (approvers != null) {
-                    List<String> approverList = Arrays.asList(approver);
+                    List<String> approverList = Collections.singletonList(approver);
                     for (String name : approverList) {
                         approverName = name;
                     }
                 }
             }
-            workflowEventRequestDAO.addApproversOfRequest(workflowId, eventId, approverType, approverName);
         }
+        return workflowEventRequestDAO.addApproversOfRequest(eventId, workflowId, approverType, approverName);
     }
 
+    /**
+     * Identify the current Step.
+     *
+     * @param eventId     the request ID that need to be checked.
+     * @param currentStep the current step.
+     */
     public void createStatesOfRequest(String eventId, int currentStep) {
 
-        WorkflowEventRequestDAO workflowEventRequestDAO = new WorkflowEventRequestDAOImpl();
-        for(int i=1;i<=parameterList.size();i++)
-        {
-
+        for (Parameter parameter : this.parameterList) {
+            if (parameter.getParamName().equals(WorkflowEngineConstants.ParameterName.USER_AND_ROLE_STEP)) {
+                String[] stepName = parameter.getqName().split("-");
+                currentStep = Integer.parseInt(stepName[2]);
+            }
         }
         workflowEventRequestDAO.createStatesOfRequest(eventId, currentStep);
     }
-
 }

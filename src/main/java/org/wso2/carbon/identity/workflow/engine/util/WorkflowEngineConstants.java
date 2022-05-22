@@ -29,11 +29,11 @@ public class WorkflowEngineConstants {
                 "SELECT WF_NAME, DESCRIPTION, APPROVAL_SUBJECT, APPROVAL_DESCRIPTION, TENANT_ID FROM WF_WORKFLOW " +
                         "WHERE TENANT_ID = ? AND WF_NAME = ?";
 
-        public static final String ADD_APPROVAL_UserList_RELATED_TO_USER = "INSERT INTO WF_WORKFLOW_APPROVAL_RELATION " +
-                "(WORKFLOW_ID, REQUEST_ID, APPROVER_TYPE, APPROVER_NAME) VALUES (?, ?, ?, ?) ";
+        public static final String ADD_APPROVAL_LIST_RELATED_TO_USER = "INSERT INTO WF_WORKFLOW_APPROVAL_RELATION " +
+                "(EVENT_ID,WORKFLOW_ID, APPROVER_TYPE, APPROVER_NAME) VALUES (?, ?, ?, ?) ";
 
-        public static final String ADD_CURRENT_STEP_FOR_EVENT = "INSERT INTO WF_WORKFLOW_APPROVAL " +
-                "(REQUEST_ID, CURRENT_STEP) VALUES (?, ?) ";
+        public static final String ADD_CURRENT_STEP_FOR_EVENT = "INSERT INTO WF_WORKFLOW_APPROVAL_STATE " +
+                "(EVENT_ID, CURRENT_STEP) VALUES (?, ?) ";
 
     }
 
@@ -65,6 +65,6 @@ public class WorkflowEngineConstants {
     }
 
     public static class ParameterName {
-        public static final String STEPS_USER_AND_ROLE = "UserAndRole" ;
+        public static final String USER_AND_ROLE_STEP = "UserAndRole" ;
     }
 }

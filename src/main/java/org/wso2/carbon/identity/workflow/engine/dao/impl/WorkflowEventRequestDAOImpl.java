@@ -4,31 +4,33 @@ import org.wso2.carbon.database.utils.jdbc.JdbcTemplate;
 import org.wso2.carbon.database.utils.jdbc.exceptions.DataAccessException;
 import org.wso2.carbon.identity.configuration.mgt.core.util.JdbcUtils;
 import org.wso2.carbon.identity.workflow.engine.dao.WorkflowEventRequestDAO;
-import org.wso2.carbon.identity.workflow.engine.exception.WorkflowEngineSQLException;
+import org.wso2.carbon.identity.workflow.engine.exception.WorkflowEngineServerException;
 import org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants;
 
 public class WorkflowEventRequestDAOImpl implements WorkflowEventRequestDAO {
 
     @Override
-    public void addApproversOfRequest(String eventId, String workflowId, String approvertype, String approver) {
+    public String addApproversOfRequest(String eventId, String workflowId, String approverType, String approverName) {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
         try {
-            jdbcTemplate.executeUpdate(WorkflowEngineConstants.SqlQueries.ADD_APPROVAL_UserList_RELATED_TO_USER,
+            jdbcTemplate.executeUpdate(WorkflowEngineConstants.SqlQueries.ADD_APPROVAL_LIST_RELATED_TO_USER,
                     preparedStatement -> {
                         preparedStatement.setString(1, eventId);
                         preparedStatement.setString(2, workflowId);
-                        preparedStatement.setString(3, approvertype);
-                        preparedStatement.setString(4, approver);
+                        preparedStatement.setString(3, approverType);
+                        preparedStatement.setString(4, approverName);
                     });
         } catch (DataAccessException e) {
+            String errorMessage = String.format("Error occurred while adding request details" +
+                    "in eventId: %s  & workflowId: %s", eventId, workflowId);
             try {
-                throw new WorkflowEngineSQLException(String.format("Error occurred while adding request details" +
-                        "in request Id: %s  & workflowId: %s", eventId, workflowId), e);
-            } catch (WorkflowEngineSQLException ex) {
-                ex.printStackTrace();
+                throw new WorkflowEngineServerException(errorMessage);
+            } catch (WorkflowEngineServerException ex) {
+                throw new RuntimeException(ex);
             }
         }
+        return eventId;
     }
 
     @Override
@@ -42,11 +44,12 @@ public class WorkflowEventRequestDAOImpl implements WorkflowEventRequestDAO {
                         preparedStatement.setInt(2, currentStep);
                     });
         } catch (DataAccessException e) {
+            String errorMessage = String.format("Error occurred while adding request approval steps" +
+                    "in event Id: %s", eventId);
             try {
-                throw new WorkflowEngineSQLException(String.format("Error occurred while adding request approval steps" +
-                        "in event Id: %d", eventId), e);
-            } catch (WorkflowEngineSQLException ex) {
-                ex.printStackTrace();
+                throw new WorkflowEngineServerException(errorMessage);
+            } catch (WorkflowEngineServerException ex) {
+                throw new RuntimeException(ex);
             }
         }
     }

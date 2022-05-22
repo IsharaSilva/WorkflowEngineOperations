@@ -4,7 +4,7 @@ import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.xpath.AXIOMXPath;
 import org.jaxen.JaxenException;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
-import org.wso2.carbon.identity.workflow.engine.exception.WorkflowEngineRuntimeException;
+import org.wso2.carbon.identity.workflow.engine.exception.WorkflowEngineException;
 import org.wso2.carbon.identity.workflow.engine.internal.WorkflowEngineServiceDataHolder;
 import org.wso2.carbon.identity.workflow.engine.util.EventResultState;
 import org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants;
@@ -27,7 +27,7 @@ import java.util.UUID;
 
 public class EventExecutor {
 
-    public EventExecutorResult engageWorkflow(WorkflowRequest workFlowRequest) {
+    public EventExecutorResult executeWorkflow(WorkflowRequest workFlowRequest) {
 
         WorkflowExecutorManagerService workFlowExecutorManagerService = new WorkflowExecutorManagerServiceImpl();
         WorkflowManagementService workflowManagementService = new WorkflowManagementServiceImpl();
@@ -71,7 +71,7 @@ public class EventExecutor {
             } catch (CloneNotSupportedException e) {
                 return new EventExecutorResult(EventResultState.FAILED, "Error while cloning workflowRequest");
             } catch (WorkflowException e) {
-                throw new WorkflowEngineRuntimeException("not valid");
+                throw new WorkflowEngineException("not valid");
             }
         }
         if (!workflowEngaged) {
