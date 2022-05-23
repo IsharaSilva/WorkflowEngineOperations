@@ -29,11 +29,8 @@ public class DefaultApprovalWorkflow extends AbstractWorkflow {
         metaData.setWorkflowImpl();
         this.templateId = metaData.getWorkflowImpl().getWorkflowImplId();
         this.workflowImplId = metaData.getTemplate().getTemplateId();
-    }
-
-    private String getMetaDataXML(){
-        return null;
     }*/
+
     @Override
     protected InputData getInputData(ParameterMetaData parameterMetaData) {
 

@@ -30,10 +30,13 @@ public class WorkflowEngineConstants {
                         "WHERE TENANT_ID = ? AND WF_NAME = ?";
 
         public static final String ADD_APPROVAL_LIST_RELATED_TO_USER = "INSERT INTO WF_WORKFLOW_APPROVAL_RELATION " +
-                "(EVENT_ID,WORKFLOW_ID, APPROVER_TYPE, APPROVER_NAME) VALUES (?, ?, ?, ?) ";
+                "(TASK_ID,EVENT_ID,WORKFLOW_ID, APPROVER_TYPE, APPROVER_NAME) VALUES (?,?, ?, ?, ?) ";
 
         public static final String ADD_CURRENT_STEP_FOR_EVENT = "INSERT INTO WF_WORKFLOW_APPROVAL_STATE " +
-                "(EVENT_ID, CURRENT_STEP) VALUES (?, ?) ";
+                "(EVENT_ID,WORKFLOW_ID, CURRENT_STEP) VALUES (?,?,?) ";
+
+        public static final String GET_CURRENTSTEP = "SELECT WF_WORKFLOW_APPROVAL_STATE_CURRENT_STEP " +
+                "FROM WF_WORKFLOW_APPROVAL_STATE WHERE WF_WORKFLOW_APPROVAL_STATE_EVENT_ID = ?";
 
     }
 
@@ -61,7 +64,8 @@ public class WorkflowEngineConstants {
     }
 
     public enum EventState{
-        PENDING
+        PENDING,
+        APPROVED
     }
 
     public static class ParameterName {
