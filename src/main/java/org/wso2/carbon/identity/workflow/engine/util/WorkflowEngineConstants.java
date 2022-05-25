@@ -6,6 +6,7 @@ public class WorkflowEngineConstants {
     public static final String WF_DESCRIPTION_COLUMN = "DESCRIPTION";
     public static final String APPROVAL_SUBJECT_COLUMN = "APPROVAL_SUBJECT";
     public static final String APPROVAL_DESCRIPTION_COLUMN = "APPROVAL_DESCRIPTION";
+    public static final String CURRENT_STEP_COLUMN = "CURRENT_STEP";
 
     public static class SqlQueries {
 
@@ -35,9 +36,8 @@ public class WorkflowEngineConstants {
         public static final String ADD_CURRENT_STEP_FOR_EVENT = "INSERT INTO WF_WORKFLOW_APPROVAL_STATE " +
                 "(EVENT_ID,WORKFLOW_ID, CURRENT_STEP) VALUES (?,?,?) ";
 
-        public static final String GET_CURRENTSTEP = "SELECT WF_WORKFLOW_APPROVAL_STATE_CURRENT_STEP " +
-                "FROM WF_WORKFLOW_APPROVAL_STATE WHERE WF_WORKFLOW_APPROVAL_STATE_EVENT_ID = ?";
-
+        public static final String GET_CURRENT_STEP = "SELECT CURRENT_STEP FROM WF_WORKFLOW_APPROVAL_STATE " +
+                "WHERE EVENT_ID = ?";
     }
 
     public enum ErrorMessage {

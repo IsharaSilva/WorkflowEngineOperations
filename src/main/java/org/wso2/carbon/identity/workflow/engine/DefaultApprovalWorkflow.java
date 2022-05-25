@@ -12,10 +12,6 @@ import java.util.List;
 
 public class DefaultApprovalWorkflow extends AbstractWorkflow {
 
-    //public MetaData metaData = null;
-    String templateId;
-    String workflowImplId;
-
     public DefaultApprovalWorkflow(Class<? extends WorkFlowExecutor> workFlowExecutorClass, String metaDataXML)
             throws WorkflowRuntimeException {
 

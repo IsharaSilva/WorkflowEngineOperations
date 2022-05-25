@@ -4,13 +4,15 @@ import org.wso2.carbon.database.utils.jdbc.JdbcTemplate;
 import org.wso2.carbon.database.utils.jdbc.exceptions.DataAccessException;
 import org.wso2.carbon.identity.configuration.mgt.core.util.JdbcUtils;
 import org.wso2.carbon.identity.workflow.engine.dao.WorkflowEventRequestDAO;
-import org.wso2.carbon.identity.workflow.engine.exception.WorkflowEngineServerException;
+import org.wso2.carbon.identity.workflow.engine.exception.WorkflowEngineRuntimeException;
 import org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants;
+
+import static org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants.CURRENT_STEP_COLUMN;
 
 public class WorkflowEventRequestDAOImpl implements WorkflowEventRequestDAO {
 
     @Override
-    public void addApproversOfRequest(String taskId, String eventId, String workflowId, String approverType, String approverName) {
+    public String addApproversOfRequest(String taskId, String eventId, String workflowId, String approverType, String approverName) {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
         try {
@@ -25,12 +27,9 @@ public class WorkflowEventRequestDAOImpl implements WorkflowEventRequestDAO {
         } catch (DataAccessException e) {
             String errorMessage = String.format("Error occurred while adding request details" +
                     "in eventId: %s  & workflowId: %s", eventId, workflowId);
-            try {
-                throw new WorkflowEngineServerException(errorMessage);
-            } catch (WorkflowEngineServerException ex) {
-                throw new RuntimeException(ex);
-            }
+            throw new WorkflowEngineRuntimeException(errorMessage);
         }
+        return eventId;
     }
 
     @Override
@@ -47,34 +46,29 @@ public class WorkflowEventRequestDAOImpl implements WorkflowEventRequestDAO {
         } catch (DataAccessException e) {
             String errorMessage = String.format("Error occurred while adding request approval steps" +
                     "in event Id: %s", eventId);
-            try {
-                throw new WorkflowEngineServerException(errorMessage);
-            } catch (WorkflowEngineServerException ex) {
-                throw new RuntimeException(ex);
-            }
+            throw new WorkflowEngineRuntimeException(errorMessage);
         }
     }
 
     @Override
-    public int getCurrentStep(String eventId) {
+    public void getCurrentStep(String eventId) {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
-        int currentStep = 0;
         try {
-             jdbcTemplate.fetchSingleRecord(WorkflowEngineConstants.SqlQueries.GET_CURRENTSTEP,
-                    ((resultSet, i) -> {
-                         resultSet.getInt(currentStep);
-                        return null;
-                    }),
-                    preparedStatement -> preparedStatement.setString(1, eventId));
+            jdbcTemplate.fetchSingleRecord(WorkflowEngineConstants.SqlQueries.GET_CURRENT_STEP,
+                    ((resultSet, i) -> (
+                            resultSet.getInt(CURRENT_STEP_COLUMN))),
+
+                    preparedStatement -> {
+                        preparedStatement.setString(1, eventId);
+                    });
         } catch (DataAccessException e) {
             try {
-                throw new WorkflowEngineServerException(String.format("Error occurred while retrieving currentStep from" +
+                throw new WorkflowEngineRuntimeException(String.format("Error occurred while retrieving currentStep from" +
                         "event Id: %s", eventId), e);
-            } catch (WorkflowEngineServerException ex) {
+            } catch (WorkflowEngineRuntimeException ex) {
                 ex.printStackTrace();
             }
         }
-        return currentStep;
     }
 }
