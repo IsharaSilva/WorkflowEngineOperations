@@ -4,9 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
-    <artifactId>WorkflowEngineDefault</artifactId>
+    <groupId>org.wso2.carbon.identity.workflow.engine</groupId>
+    <artifactId>workflow.engine</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>bundle</packaging>
     <dependencies>
         <dependency>
             <groupId>org.testng</groupId>
@@ -40,6 +41,12 @@
             <artifactId>axiom</artifactId>
             <version>1.2.11-wso2v16</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.scr.ds-annotations</artifactId>
+            <version>${apache.felix.scr.ds.annotations.version}</version>
+        </dependency>
+
     </dependencies>
 
     <repositories>
@@ -118,7 +125,6 @@
     </pluginRepositories>
 
     <build>
-        <pluginManagement>
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -140,8 +146,12 @@
                         <obrRepository>NONE</obrRepository>
                         <instructions>
                             <SCM-Revision>${buildNumber}</SCM-Revision>
+                            <Private-Package>
+                                org.wso2.carbon.identity.workflow.engine.internal,
+                            </Private-Package>
                             <Export-Package>
-                                org.wso2.carbon.identity.workflow.engine;
+                                !org.wso2.carbon.identity.workflow.engine.internal,
+                                org.wso2.carbon.identity.workflow.engine.*;
                             </Export-Package>
                         </instructions>
                     </configuration>
@@ -193,10 +203,7 @@
                         </execution>
                     </executions>
                 </plugin>
-            </plugins>
-        </pluginManagement>
 
-        <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
@@ -253,6 +260,8 @@
         <maven.checkstyleplugin.version>3.1.0</maven.checkstyleplugin.version>
         <maven.findbugsplugin.version>3.0.5</maven.findbugsplugin.version>
         <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
+        <apache.felix.scr.ds.annotations.version>1.2.8</apache.felix.scr.ds.annotations.version>
     </properties>
+
 
 </project>
