@@ -19,7 +19,6 @@ import java.io.StringWriter;
 import javax.xml.bind.JAXB;
 
 public class WorkflowEngineServiceComponent {
-
     @Activate
     protected void activate(ComponentContext context) {
 

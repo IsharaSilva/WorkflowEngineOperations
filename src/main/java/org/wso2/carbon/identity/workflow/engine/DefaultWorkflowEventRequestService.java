@@ -3,6 +3,7 @@ package org.wso2.carbon.identity.workflow.engine;
 import org.wso2.carbon.identity.workflow.engine.dao.WorkflowEventRequestDAO;
 import org.wso2.carbon.identity.workflow.engine.dao.impl.WorkflowEventRequestDAOImpl;
 import org.wso2.carbon.identity.workflow.engine.exception.WorkflowEngineException;
+import org.wso2.carbon.identity.workflow.engine.exception.WorkflowEngineRuntimeException;
 import org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants;
 import org.wso2.carbon.identity.workflow.mgt.WorkflowExecutorManagerService;
 import org.wso2.carbon.identity.workflow.mgt.WorkflowExecutorManagerServiceImpl;
@@ -13,7 +14,6 @@ import org.wso2.carbon.identity.workflow.mgt.bean.WorkflowAssociation;
 import org.wso2.carbon.identity.workflow.mgt.dto.WorkflowRequest;
 import org.wso2.carbon.identity.workflow.mgt.exception.InternalWorkflowException;
 import org.wso2.carbon.identity.workflow.mgt.exception.WorkflowException;
-import org.wso2.carbon.identity.workflow.mgt.exception.WorkflowRuntimeException;
 
 import java.util.Collections;
 import java.util.List;
@@ -64,6 +64,66 @@ public class DefaultWorkflowEventRequestService {
             }
         }
        return workflowEventRequestDAO.addApproversOfRequest(taskId, eventId, workflowId, approverType, approverName);
+       /* WorkflowEventRequestDAO workflowEventRequestDAO = new WorkflowEventRequestDAOImpl();
+        WorkflowExecutorManagerService workFlowExecutorManagerService = new WorkflowExecutorManagerServiceImpl();
+        WorkflowManagementService workflowManagementService = new WorkflowManagementServiceImpl();
+        String taskId = UUID.randomUUID().toString();
+        String eventId = request.getUuid();
+        List<WorkflowAssociation> associations;
+        try {
+            associations = workFlowExecutorManagerService.getWorkflowAssociationsForRequest(
+                    request.getEventType(), request.getTenantId());
+        } catch (InternalWorkflowException e) {
+            throw new WorkflowRuntimeException("The associations are not connecting with any request");
+        }
+        int currentStep = 0;
+        String approverType = null;
+        String approverName = null;
+        //String workflowId = null;
+        Workflow workflow;
+        String workflowId = null;
+        for (WorkflowAssociation association : associations) {
+            try {
+                workflow = workflowManagementService.getWorkflow(association.getWorkflowId());
+            } catch (WorkflowException e) {
+                throw new WorkflowEngineException("The workflow Id is not valid");
+            }
+            workflowId = workflow.getWorkflowId();
+            List<Parameter> parameterList;
+            try {
+                parameterList = workflowManagementService.getWorkflowParameters(association.getWorkflowId());
+            } catch (WorkflowException e) {
+                throw new RuntimeException(e);
+            }
+            for (Parameter parameter : parameterList) {
+                if (parameter.getParamName().equals(WorkflowEngineConstants.ParameterName.USER_AND_ROLE_STEP)) {
+                    String[] stepName = parameter.getqName().split("-");
+                    currentStep = Integer.parseInt(stepName[2]);
+                    //use split method to get string last word EX: UserAndRole-step-1-roles -> lastWord=roles
+                    approverType = stepName[stepName.length - 1];
+                }
+                String approver = parameter.getParamValue();
+                String[] approvers = approver.split(",");
+                if (approvers != null) {
+                    List<String> approverList = Collections.singletonList(approver);
+                    String stepValue = WorkflowEngineConstants.ParameterName.USER_AND_ROLE_STEP + "-step-" +
+                            currentStep + "-users";
+                    if (stepValue.equals(parameter.getqName())) {
+                        for (String name : approverList) {
+                            approverName = name;
+                        }
+                    }
+                    stepValue = WorkflowEngineConstants.ParameterName.USER_AND_ROLE_STEP + "-step-" +
+                            currentStep + "-roles";
+                    if (stepValue.equals(parameter.getqName())) {
+                        for (String name : approverList) {
+                            approverName = name;
+                        }
+                    }
+                }
+            }
+        }
+        return workflowEventRequestDAO.addApproversOfRequest(taskId, eventId, workflowId, approverType, approverName);*/
     }
 
     private String getWorkflowId(WorkflowRequest request) {
@@ -89,7 +149,7 @@ public class DefaultWorkflowEventRequestService {
             associations = workFlowExecutorManagerService.getWorkflowAssociationsForRequest(
                     workflowRequest.getEventType(), workflowRequest.getTenantId());
         } catch (InternalWorkflowException e) {
-            throw new WorkflowRuntimeException("The associations are not connecting with any request");
+            throw new WorkflowEngineRuntimeException("The associations are not connecting with any request");
         }
         return associations;
     }
