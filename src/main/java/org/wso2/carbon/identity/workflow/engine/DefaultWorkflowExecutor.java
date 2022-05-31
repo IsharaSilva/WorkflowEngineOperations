@@ -27,10 +27,8 @@ public class DefaultWorkflowExecutor implements WorkFlowExecutor {
     public void execute(WorkflowRequest request) {
 
         DefaultWorkflowEventRequestService defaultWorkflowEventRequest = new DefaultWorkflowEventRequestService();
-        String eventId = defaultWorkflowEventRequest.addApproversOfRequests(request);
-        if (eventId != null) {
-            defaultWorkflowEventRequest.createStatesOfRequest(request);
-        }
+        defaultWorkflowEventRequest.addApproversOfRequests(request, parameterList);
+        defaultWorkflowEventRequest.createStatesOfRequest(request);
     }
 
     @Override
