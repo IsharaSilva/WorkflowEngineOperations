@@ -25,6 +25,10 @@ public interface WorkflowEventRequestDAO {
 
     /**
      * @param eventId
+     * @param workflowId
+     * @return
      */
-    void getCurrentStep(String eventId);
+    String getStateOfRequest(String eventId, String workflowId);
+
+    void updateStateOfRequest(String eventId, String workflowId, int currentStep);
 }

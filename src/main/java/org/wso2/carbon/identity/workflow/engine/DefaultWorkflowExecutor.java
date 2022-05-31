@@ -28,7 +28,6 @@ public class DefaultWorkflowExecutor implements WorkFlowExecutor {
 
         DefaultWorkflowEventRequestService defaultWorkflowEventRequest = new DefaultWorkflowEventRequestService();
         defaultWorkflowEventRequest.addApproversOfRequests(request, parameterList);
-        defaultWorkflowEventRequest.createStatesOfRequest(request);
     }
 
     @Override
