@@ -7,6 +7,9 @@ import org.wso2.carbon.identity.workflow.engine.dao.WorkflowEventRequestDAO;
 import org.wso2.carbon.identity.workflow.engine.exception.WorkflowEngineRuntimeException;
 import org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import static org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants.CURRENT_STEP_COLUMN;
 import static org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants.SqlQueries.ADD_CURRENT_STEP_FOR_EVENT;
 
@@ -71,26 +74,27 @@ public class WorkflowEventRequestDAOImpl implements WorkflowEventRequestDAO {
     }
 
     @Override
-    public String getStateOfRequest(String eventId, String workflowId) {
+    public int getStateOfRequest(String eventId, String workflowId) {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
-
-        Object currentStep;
+        String stepExists;
         try {
-            currentStep = jdbcTemplate.fetchSingleRecord(WorkflowEngineConstants.SqlQueries.GET_CURRENT_STEP,
+            stepExists = jdbcTemplate.fetchSingleRecord(WorkflowEngineConstants.SqlQueries.GET_CURRENT_STEP,
                     ((resultSet, i) -> (
-                            resultSet.getInt(CURRENT_STEP_COLUMN))),
-
+                            Integer.toString(resultSet.getInt(CURRENT_STEP_COLUMN)))),
                     preparedStatement -> {
                         preparedStatement.setString(1, eventId);
                         preparedStatement.setString(2, workflowId);
                     });
+            if (stepExists == null) {
+                return 0;
+            }
         } catch (DataAccessException e) {
             String errorMessage = String.format("Error occurred while retrieving currentStep from" +
                     "event Id: %s", eventId);
             throw new WorkflowEngineRuntimeException(errorMessage);
         }
-        return (String) currentStep;
+        return Integer.parseInt(stepExists);
     }
 
     public void updateStateOfRequest(String eventId, String workflowId, int currentStep) {
@@ -99,14 +103,23 @@ public class WorkflowEventRequestDAOImpl implements WorkflowEventRequestDAO {
         try {
             jdbcTemplate.executeUpdate(WorkflowEngineConstants.SqlQueries.UPDATE_STATE_OF_REQUEST,
                     (preparedStatement -> {
-                        preparedStatement.setString(1, eventId);
-                        preparedStatement.setString(2, workflowId);
-                        preparedStatement.setInt(3, currentStep);
+                        setPreparedStatementForStateOfRequest(currentStep, eventId, workflowId, preparedStatement);
+                        preparedStatement.setInt(1, currentStep);
+                        preparedStatement.setString(2, eventId);
+                        preparedStatement.setString(3, workflowId);
                     }));
         } catch (DataAccessException e) {
             String errorMessage = String.format("Error occurred while updating state from" +
                     "eventIs:%s", eventId);
             throw new WorkflowEngineRuntimeException(errorMessage);
         }
+    }
+
+    private void setPreparedStatementForStateOfRequest(int currentStep, String eventId, String workflowId,
+                                                       PreparedStatement preparedStatement) throws SQLException {
+
+        preparedStatement.setInt(1, currentStep);
+        preparedStatement.setString(2, eventId);
+        preparedStatement.setString(3, workflowId);
     }
 }

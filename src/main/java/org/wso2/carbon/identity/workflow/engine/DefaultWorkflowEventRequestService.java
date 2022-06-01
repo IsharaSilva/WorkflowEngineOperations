@@ -16,7 +16,6 @@ import org.wso2.carbon.identity.workflow.mgt.bean.WorkflowAssociation;
 import org.wso2.carbon.identity.workflow.mgt.dto.WorkflowRequest;
 import org.wso2.carbon.identity.workflow.mgt.exception.InternalWorkflowException;
 import org.wso2.carbon.identity.workflow.mgt.exception.WorkflowException;
-import org.wso2.carbon.identity.workflow.mgt.exception.WorkflowRuntimeException;
 
 import java.util.Collections;
 import java.util.List;
@@ -33,58 +32,46 @@ public class DefaultWorkflowEventRequestService {
     public void addApproversOfRequests(WorkflowRequest request, List<Parameter> parameterList) {
 
         WorkflowEventRequestDAO workflowEventRequestDAO = new WorkflowEventRequestDAOImpl();
-        WorkflowExecutorManagerService workFlowExecutorManagerService = new WorkflowExecutorManagerServiceImpl();
-        WorkflowManagementService workflowManagementService = new WorkflowManagementServiceImpl();
         String taskId = UUID.randomUUID().toString();
-        List<RequestParameter> requestParameter = request.getRequestParameters();
-        Object event = requestParameter.get(6).getValue();
-        String eventId = (String) event;
-        List<WorkflowAssociation> associations;
-        try {
-            associations = workFlowExecutorManagerService.getWorkflowAssociationsForRequest(
-                    request.getEventType(), request.getTenantId());
-        } catch (InternalWorkflowException e) {
-            throw new WorkflowRuntimeException("The associations are not connecting with any request");
-        }
-        int currentStep = 0;
+        String eventId = getRequestId(request);
+        String workflowId = getWorkflowId(request);
         String approverType = null;
         String approverName = null;
-        String workflowId = getWorkflowId(request);
+        int currentStep;
+        int currentStepValue = getStateOfRequest(eventId, workflowId);
+        if (currentStepValue == 0) {
+            createStatesOfRequest(eventId, workflowId, currentStepValue);
+        }
+        List<WorkflowAssociation> associations = getAssociations(request);
         for (WorkflowAssociation association : associations) {
-            try {
-                parameterList = workflowManagementService.getWorkflowParameters(association.getWorkflowId());
-            } catch (WorkflowException e) {
-                throw new RuntimeException(e);
-            }
             for (Parameter parameter : parameterList) {
                 if (parameter.getParamName().equals(WorkflowEngineConstants.ParameterName.USER_AND_ROLE_STEP)) {
                     String[] stepName = parameter.getqName().split("-");
                     int step = Integer.parseInt(stepName[2]);
-                    if (getStateOfRequest(eventId, workflowId) == null) {
-                        createStatesOfRequest(eventId, workflowId, currentStep);
-                    } else {
-                        currentStep = Integer.parseInt(getStateOfRequest(eventId, workflowId)) + 1;
-                        if (currentStep == step) {
-                            //use split method to get string last word EX: UserAndRole-step-1-roles -> lastWord=roles
-                            approverType = stepName[stepName.length - 1];
+                    //String currentStepValue = getStateOfRequest(eventId, workflowId);
+                    currentStep = getStateOfRequest(eventId, workflowId);
+                    currentStep += 1;
+                    updateStateOfRequest(eventId, workflowId);
+                    if (currentStep == step) {
+                        //use split method to get string last word EX: UserAndRole-step-1-roles -> lastWord=roles
+                        approverType = stepName[stepName.length - 1];
 
-                            String approver = parameter.getParamValue();
-                            String[] approvers = approver.split(",");
-                            if (approvers != null) {
-                                List<String> approverList = Collections.singletonList(approver);
-                                String stepValue = WorkflowEngineConstants.ParameterName.USER_AND_ROLE_STEP + "-step-" +
-                                        currentStep + "-users";
-                                if (stepValue.equals(parameter.getqName())) {
-                                    for (String name : approverList) {
-                                        approverName = name;
-                                    }
+                        String approver = parameter.getParamValue();
+                        String[] approvers = approver.split(",");
+                        if (approvers != null) {
+                            List<String> approverList = Collections.singletonList(approver);
+                            String stepValue = WorkflowEngineConstants.ParameterName.USER_AND_ROLE_STEP + "-step-" +
+                                    currentStep + "-users";
+                            if (stepValue.equals(parameter.getqName())) {
+                                for (String name : approverList) {
+                                    approverName = name;
                                 }
-                                stepValue = WorkflowEngineConstants.ParameterName.USER_AND_ROLE_STEP + "-step-" +
-                                        currentStep + "-roles";
-                                if (stepValue.equals(parameter.getqName())) {
-                                    for (String name : approverList) {
-                                        approverName = name;
-                                    }
+                            }
+                            stepValue = WorkflowEngineConstants.ParameterName.USER_AND_ROLE_STEP + "-step-" +
+                                    currentStep + "-roles";
+                            if (stepValue.equals(parameter.getqName())) {
+                                for (String name : approverList) {
+                                    approverName = name;
                                 }
                             }
                         }
@@ -93,8 +80,20 @@ public class DefaultWorkflowEventRequestService {
                 }
             }
             workflowEventRequestDAO.addApproversOfRequest(taskId, eventId, workflowId, approverType, approverName);
-            updateStateOfRequest(eventId, workflowId);
         }
+    }
+
+    private String getRequestId(WorkflowRequest request) {
+
+        List<RequestParameter> requestParameter;
+        Object event = null;
+        for (int i = 0; i < request.getRequestParameters().size(); i++) {
+            requestParameter = request.getRequestParameters();
+            if (requestParameter.get(i).getName().equals(WorkflowEngineConstants.ParameterName.REQUEST_ID)) {
+                event = requestParameter.get(i).getValue();
+            }
+        }
+        return (String) event;
     }
 
     private String getWorkflowId(WorkflowRequest request) {
@@ -113,7 +112,6 @@ public class DefaultWorkflowEventRequestService {
         workflowId = workflow.getWorkflowId();
         return workflowId;
     }
-
 /*
     private Map<Integer, Map<String, List<String>>> approvalMap() {
 
@@ -168,21 +166,10 @@ public class DefaultWorkflowEventRequestService {
     public void createStatesOfRequest(String eventId, String workflowId, int currentStep) {
 
         WorkflowEventRequestDAO workflowEventRequestDAO = new WorkflowEventRequestDAOImpl();
-        /*for (Parameter parameter : parameterList) {
-            if (parameter.getParamName().equals(WorkflowEngineConstants.ParameterName.USER_AND_ROLE_STEP)) {
-                String[] stepName = parameter.getqName().split("-");
-                currentStep = Integer.parseInt(stepName[2]);
-
-            }
-        }*/
         workflowEventRequestDAO.createStatesOfRequest(eventId, workflowId, currentStep);
-        /*for (int i = 1; i <= parameterList.size(); i++) {
-            currentStep = i;
-            workflowEventRequestDAO.createStatesOfRequest(eventId, workflowId, currentStep);
-        }*/
     }
 
-    public String getStateOfRequest(String eventId, String workflowId) {
+    public int getStateOfRequest(String eventId, String workflowId) {
 
         WorkflowEventRequestDAO workflowEventRequestDAO = new WorkflowEventRequestDAOImpl();
         return workflowEventRequestDAO.getStateOfRequest(eventId, workflowId);
@@ -191,7 +178,8 @@ public class DefaultWorkflowEventRequestService {
     public void updateStateOfRequest(String eventId, String workflowId) {
 
         WorkflowEventRequestDAO workflowEventRequestDAO = new WorkflowEventRequestDAOImpl();
-        int currentStep = Integer.parseInt(getStateOfRequest(eventId, workflowId) + 1);
+        int currentStep = getStateOfRequest(eventId, workflowId);
+        currentStep += 1;
         workflowEventRequestDAO.updateStateOfRequest(eventId, workflowId, currentStep);
     }
 }

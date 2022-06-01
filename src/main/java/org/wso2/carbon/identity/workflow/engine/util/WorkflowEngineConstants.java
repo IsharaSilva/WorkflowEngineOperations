@@ -35,7 +35,7 @@ public class WorkflowEngineConstants {
 
         public static final String GET_CURRENT_STEP = "SELECT CURRENT_STEP FROM WF_WORKFLOW_APPROVAL_STATE WHERE EVENT_ID = ? AND WORKFLOW_ID = ?";
 
-        public static final String UPDATE_STATE_OF_REQUEST = "UPDATE WF_WORKFLOW_APPROVAL_STATE SET WORKFLOW_ID=?, CURRENT_STEP=? WHERE EVENT_ID=?";
+        public static final String UPDATE_STATE_OF_REQUEST = "UPDATE WF_WORKFLOW_APPROVAL_STATE SET CURRENT_STEP=? WHERE EVENT_ID = ? AND WORKFLOW_ID = ?";
     }
 
     public enum ErrorMessage {
@@ -68,5 +68,6 @@ public class WorkflowEngineConstants {
 
     public static class ParameterName {
         public static final String USER_AND_ROLE_STEP = "UserAndRole" ;
+        public static final String REQUEST_ID = "REQUEST ID" ;
     }
 }

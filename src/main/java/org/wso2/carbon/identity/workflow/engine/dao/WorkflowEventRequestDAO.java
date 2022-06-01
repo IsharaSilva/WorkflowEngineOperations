@@ -10,7 +10,7 @@ public interface WorkflowEventRequestDAO {
      * @param workflowId   workflow ID.
      * @param approverType the type of the approved user EX: user or Role.
      * @param approverName the value of the approver type.
-     * @return
+     * @return event ID.
      */
     String addApproversOfRequest(String taskId, String eventId, String workflowId, String approverType, String approverName);
 
@@ -24,11 +24,20 @@ public interface WorkflowEventRequestDAO {
     void createStatesOfRequest(String eventId, String workflowId, int currentStep);
 
     /**
-     * @param eventId
-     * @param workflowId
-     * @return
+     * Returns the current step given the event ID and workflow ID.
+     *
+     * @param eventId    the request ID that need to be checked.
+     * @param workflowId workflow ID.
+     * @return current step value.
      */
-    String getStateOfRequest(String eventId, String workflowId);
+    int getStateOfRequest(String eventId, String workflowId);
 
+    /**
+     * Updates a state of request given the event ID, workflow ID and current step.
+     *
+     * @param eventId     the request ID that need to be checked.
+     * @param workflowId  workflow ID.
+     * @param currentStep the current step.
+     */
     void updateStateOfRequest(String eventId, String workflowId, int currentStep);
 }
