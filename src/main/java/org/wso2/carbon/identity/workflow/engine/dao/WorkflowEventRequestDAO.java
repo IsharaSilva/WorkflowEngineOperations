@@ -15,6 +15,15 @@ public interface WorkflowEventRequestDAO {
     String addApproversOfRequest(String taskId, String eventId, String workflowId, String approverType, String approverName);
 
     /**
+     *
+     * @param taskId
+     * @param eventId
+     * @param workflowId
+     * @param approverType
+     * @param approverName
+     */
+    void updateApproversOfRequest(String taskId, String eventId, String workflowId, String approverType, String approverName);
+    /**
      * Add what step to approve.
      *
      * @param eventId     the request ID that need to be checked.

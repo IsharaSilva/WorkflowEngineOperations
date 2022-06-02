@@ -27,7 +27,7 @@ public class DefaultWorkflowEventRequestService {
      * Add who approves the relevant request.
      *
      * @param request       workflow request object.
-     * @param parameterList
+     * @param parameterList parameterList.
      */
     public void addApproversOfRequests(WorkflowRequest request, List<Parameter> parameterList) {
 
@@ -45,10 +45,10 @@ public class DefaultWorkflowEventRequestService {
         List<WorkflowAssociation> associations = getAssociations(request);
         for (WorkflowAssociation association : associations) {
             for (Parameter parameter : parameterList) {
-                if (parameter.getParamName().equals(WorkflowEngineConstants.ParameterName.USER_AND_ROLE_STEP)) {
+                if (parameter.getParamName().equals(WorkflowEngineConstants.ParameterName.USER_AND_ROLE_STEP)
+                        && parameter.getParamValue() == null) {
                     String[] stepName = parameter.getqName().split("-");
                     int step = Integer.parseInt(stepName[2]);
-                    //String currentStepValue = getStateOfRequest(eventId, workflowId);
                     currentStep = getStateOfRequest(eventId, workflowId);
                     currentStep += 1;
                     updateStateOfRequest(eventId, workflowId);
@@ -112,43 +112,6 @@ public class DefaultWorkflowEventRequestService {
         workflowId = workflow.getWorkflowId();
         return workflowId;
     }
-/*
-    private Map<Integer, Map<String, List<String>>> approvalMap() {
-
-        int currentStep = 0;
-        Map<Integer, Map<String, List<String>>> map = new HashMap<Integer, Map<String, List<String>>>();
-        for (Parameter parameter : parameterList) {
-            if (parameter.getParamName().equals(WorkflowEngineConstants.ParameterName.USER_AND_ROLE_STEP) && parameter.getParamValue() != null) {
-                String[] stepName = parameter.getqName().split("-");
-                currentStep = Integer.parseInt(stepName[2]);
-                Map<String, List<String>> valueMap = map.get(currentStep);
-                if (valueMap == null) {
-                    valueMap = new HashMap<String, List<String>>();
-                    map.put(currentStep, valueMap);
-                }
-
-                String approver = parameter.getParamValue();
-                String[] approvers = approver.split(",");
-                if (approvers != null) {
-                    List<String> approverList = Arrays.asList(approver);
-                    String stepValue = WorkflowEngineConstants.ParameterName.USER_AND_ROLE_STEP + "-step-" +
-                            currentStep + "-users";
-                    if (stepValue.equals(parameter.getqName())) {
-                        //approverName = name;
-                        valueMap.put("users", approverList);
-                    }
-                    stepValue = WorkflowEngineConstants.ParameterName.USER_AND_ROLE_STEP + "-step-" +
-                            currentStep + "-roles";
-                    if (stepValue.equals(parameter.getqName())) {
-                        //approverName = name;
-                        valueMap.put("roles", approverList);
-                    }
-                }
-            }
-        }
-        return map;
-    }
-*/
 
     private List<WorkflowAssociation> getAssociations(WorkflowRequest workflowRequest) {
 
@@ -178,9 +141,85 @@ public class DefaultWorkflowEventRequestService {
     public void updateStateOfRequest(String eventId, String workflowId) {
 
         WorkflowEventRequestDAO workflowEventRequestDAO = new WorkflowEventRequestDAOImpl();
+
         int currentStep = getStateOfRequest(eventId, workflowId);
         currentStep += 1;
+
         workflowEventRequestDAO.updateStateOfRequest(eventId, workflowId, currentStep);
+    }
+
+    public void handleCallBack(String eventId) {
+
+        validateApprovers(eventId);
+        WorkflowExecutorManagerService workFlowExecutorManagerService = new WorkflowExecutorManagerServiceImpl();
+        String requestId;
+        WorkflowRequest request;
+        try {
+            requestId = workFlowExecutorManagerService.getRequestIdOfRelationship(eventId);
+            request = workFlowExecutorManagerService.retrieveWorkflow(requestId);
+        } catch (InternalWorkflowException e) {
+            throw new RuntimeException(e);
+        }
+        List<Parameter> parameterList = getParameterList(request);
+        String status = null;
+        for (int i = 0; i < numOfStates(request); i++) {
+            if (!(status.equals(WorkflowEngineConstants.EventState.APPROVED.toString()))) {
+                addApproversOfRequests(request, parameterList);
+                            /*for (String states : statesOfRequest) {
+                if (!states.equals(WorkflowEngineConstants.EventState.APPROVED.toString())) {
+                    addApproversOfRequests(request, parameterList);
+                }
+            }*/
+            }
+        }
+    }
+
+    private void validateApprovers(String eventId) {
+
+        DefaultWorkflowEventRequestService defaultWorkflowEventRequestService = new DefaultWorkflowEventRequestService();
+        WorkflowExecutorManagerService workFlowExecutorManagerService = new WorkflowExecutorManagerServiceImpl();
+        String requestId;
+        WorkflowRequest request;
+        try {
+            requestId = workFlowExecutorManagerService.getRequestIdOfRelationship(eventId);
+            request = workFlowExecutorManagerService.retrieveWorkflow(requestId);
+        } catch (InternalWorkflowException e) {
+            throw new RuntimeException(e);
+        }
+        String workflowId=getWorkflowId(request);
+        defaultWorkflowEventRequestService.getStateOfRequest(eventId, workflowId);
+
+    }
+
+    private int numOfStates(WorkflowRequest request) {
+
+        List<WorkflowAssociation> associations = getAssociations(request);
+        List<Parameter> parameterList = getParameterList(request);
+        int count = 0;
+        for (WorkflowAssociation association : associations) {
+            for (Parameter parameter : parameterList) {
+                if (parameter.getParamName().equals(WorkflowEngineConstants.ParameterName.USER_AND_ROLE_STEP)
+                        && parameter.getParamValue() == null) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    private List<Parameter> getParameterList(WorkflowRequest request) {
+
+        WorkflowManagementService workflowManagementService = new WorkflowManagementServiceImpl();
+        List<WorkflowAssociation> associations = getAssociations(request);
+        List<Parameter> parameterList = null;
+        for (WorkflowAssociation association : associations) {
+            try {
+                parameterList = workflowManagementService.getWorkflowParameters(association.getWorkflowId());
+            } catch (WorkflowException e) {
+                throw new WorkflowEngineException("The parameterList can't get");
+            }
+        }
+        return parameterList;
     }
 }
 

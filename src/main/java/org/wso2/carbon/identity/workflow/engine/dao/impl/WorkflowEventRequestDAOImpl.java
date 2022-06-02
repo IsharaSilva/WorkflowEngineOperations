@@ -33,15 +33,17 @@ public class WorkflowEventRequestDAOImpl implements WorkflowEventRequestDAO {
                     "in eventId: %s  & workflowId: %s", eventId, workflowId);
             throw new WorkflowEngineRuntimeException(errorMessage);
         }
-        return eventId;
+        return taskId;
     }
 
-   /* public void updateApproversOfRequest(String taskId, String eventId, String workflowId, String approverType, String approverName) {
+    public void updateApproversOfRequest(String taskId, String eventId, String workflowId, String approverType, String approverName) {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
         try {
-            jdbcTemplate.executeUpdate(,
+            jdbcTemplate.executeUpdate(WorkflowEngineConstants.SqlQueries.UPDATE_APPROVAL_LIST_RELATED_TO_USER,
                     preparedStatement -> {
+                        setPreparedStatementForApproverOfRequest(taskId,eventId,workflowId,approverType,approverName,
+                                preparedStatement);
                         preparedStatement.setString(1, taskId);
                         preparedStatement.setString(2, eventId);
                         preparedStatement.setString(3, workflowId);
@@ -53,7 +55,7 @@ public class WorkflowEventRequestDAOImpl implements WorkflowEventRequestDAO {
                     "in task Id: %s", taskId);
             throw new WorkflowEngineRuntimeException(errorMessage);
         }
-    }*/
+    }
 
     @Override
     public void createStatesOfRequest(String eventId, String workflowId, int currentStep) {
@@ -121,5 +123,16 @@ public class WorkflowEventRequestDAOImpl implements WorkflowEventRequestDAO {
         preparedStatement.setInt(1, currentStep);
         preparedStatement.setString(2, eventId);
         preparedStatement.setString(3, workflowId);
+    }
+
+    private void setPreparedStatementForApproverOfRequest(String taskId, String eventId, String workflowId,
+                                                          String approverType, String approverName,
+                                                       PreparedStatement preparedStatement) throws SQLException {
+
+        preparedStatement.setString(1, taskId);
+        preparedStatement.setString(2, eventId);
+        preparedStatement.setString(3, workflowId);
+        preparedStatement.setString(4,approverType);
+        preparedStatement.setString(5,approverName);
     }
 }
