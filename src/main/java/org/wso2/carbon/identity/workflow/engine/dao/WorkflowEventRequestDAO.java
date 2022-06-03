@@ -15,7 +15,18 @@ public interface WorkflowEventRequestDAO {
     String addApproversOfRequest(String taskId, String eventId, String workflowId, String approverType, String approverName);
 
     /**
-     *
+     * @param eventId
+     * @return
+     */
+    String getApproversOfRequest(String eventId);
+
+    /**
+     * @param eventId
+     * @return
+     */
+    String getApproversOfCurrentStep(String eventId);
+
+    /**
      * @param taskId
      * @param eventId
      * @param workflowId
@@ -23,6 +34,12 @@ public interface WorkflowEventRequestDAO {
      * @param approverName
      */
     void updateApproversOfRequest(String taskId, String eventId, String workflowId, String approverType, String approverName);
+
+    /**
+     * @param taskId
+     */
+    void deleteApproversOfRequest(String taskId);
+
     /**
      * Add what step to approve.
      *

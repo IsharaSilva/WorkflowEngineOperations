@@ -10,13 +10,16 @@ import org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import static org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants.APPROVER_NAME_COLUMN;
 import static org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants.CURRENT_STEP_COLUMN;
 import static org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants.SqlQueries.ADD_CURRENT_STEP_FOR_EVENT;
+import static org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants.TASK_ID_COLUMN;
 
 public class WorkflowEventRequestDAOImpl implements WorkflowEventRequestDAO {
 
     @Override
-    public String addApproversOfRequest(String taskId, String eventId, String workflowId, String approverType, String approverName) {
+    public String addApproversOfRequest(String taskId, String eventId, String workflowId, String approverType,
+                                        String approverName) {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
         try {
@@ -36,13 +39,35 @@ public class WorkflowEventRequestDAOImpl implements WorkflowEventRequestDAO {
         return taskId;
     }
 
-    public void updateApproversOfRequest(String taskId, String eventId, String workflowId, String approverType, String approverName) {
+    public String getApproversOfRequest(String eventId) {
+
+        JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
+        String taskIdExists;
+        try {
+            taskIdExists = jdbcTemplate.fetchSingleRecord(WorkflowEngineConstants.SqlQueries.
+                            GET_APPROVAL_LIST_RELATED_TO_USER,
+                    ((resultSet, i) -> (
+                            resultSet.getString(TASK_ID_COLUMN))),
+                    preparedStatement -> preparedStatement.setString(1, eventId));
+            if (taskIdExists == null) {
+                return null;
+            }
+        } catch (DataAccessException e) {
+            String errorMessage = String.format("Error occurred while retrieving taskId from" +
+                    "task Id: %s", eventId);
+            throw new WorkflowEngineRuntimeException(errorMessage);
+        }
+        return taskIdExists;
+    }
+
+    public void updateApproversOfRequest(String taskId, String eventId, String workflowId, String approverType,
+                                         String approverName) {
 
         JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
         try {
             jdbcTemplate.executeUpdate(WorkflowEngineConstants.SqlQueries.UPDATE_APPROVAL_LIST_RELATED_TO_USER,
                     preparedStatement -> {
-                        setPreparedStatementForApproverOfRequest(taskId,eventId,workflowId,approverType,approverName,
+                        setPreparedStatementForApproverOfRequest(taskId, eventId, workflowId, approverType, approverName,
                                 preparedStatement);
                         preparedStatement.setString(1, taskId);
                         preparedStatement.setString(2, eventId);
@@ -53,6 +78,20 @@ public class WorkflowEventRequestDAOImpl implements WorkflowEventRequestDAO {
         } catch (DataAccessException e) {
             String errorMessage = String.format("Error occurred while updating request approval relation" +
                     "in task Id: %s", taskId);
+            throw new WorkflowEngineRuntimeException(errorMessage);
+        }
+    }
+
+    public void deleteApproversOfRequest(String taskId) {
+
+        JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
+        try {
+            jdbcTemplate.executeUpdate(WorkflowEngineConstants.SqlQueries.DELETE_APPROVAL_LIST_RELATED_TO_USER,
+                    preparedStatement -> {
+                        preparedStatement.setString(1, taskId);
+                    });
+        } catch (DataAccessException e) {
+            String errorMessage = String.format("Error while deleting the approver details from taskId:%s", taskId);
             throw new WorkflowEngineRuntimeException(errorMessage);
         }
     }
@@ -115,6 +154,26 @@ public class WorkflowEventRequestDAOImpl implements WorkflowEventRequestDAO {
                     "eventIs:%s", eventId);
             throw new WorkflowEngineRuntimeException(errorMessage);
         }
+    }
+
+    public String getApproversOfCurrentStep(String eventId) {
+
+        JdbcTemplate jdbcTemplate = JdbcUtils.getNewTemplate();
+        String taskIdExists;
+        try {
+            taskIdExists = jdbcTemplate.fetchSingleRecord(WorkflowEngineConstants.SqlQueries.
+                            GET_APPROVER_NAME_RELATED_TO_CURRENT_STEP,
+                    ((resultSet, i) -> (
+                            resultSet.getString(APPROVER_NAME_COLUMN))),
+                    preparedStatement -> {
+                        preparedStatement.setString(1, eventId);
+                    });
+        } catch (DataAccessException e) {
+            String errorMessage = String.format("Error occurred while retrieving currentStep from" +
+                    "event Id: %s", eventId);
+            throw new WorkflowEngineRuntimeException(errorMessage);
+        }
+        return taskIdExists;
     }
 
     private void setPreparedStatementForStateOfRequest(int currentStep, String eventId, String workflowId,

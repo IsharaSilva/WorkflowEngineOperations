@@ -21,14 +21,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-public class DefaultWorkflowEventRequestService {
+public class DefaultWorkflowEventRequestService implements DefaultWorkflowEventRequest {
 
-    /**
-     * Add who approves the relevant request.
-     *
-     * @param request       workflow request object.
-     * @param parameterList parameterList.
-     */
     public void addApproversOfRequests(WorkflowRequest request, List<Parameter> parameterList) {
 
         WorkflowEventRequestDAO workflowEventRequestDAO = new WorkflowEventRequestDAOImpl();
@@ -96,7 +90,7 @@ public class DefaultWorkflowEventRequestService {
         return (String) event;
     }
 
-    private String getWorkflowId(WorkflowRequest request) {
+    public String getWorkflowId(WorkflowRequest request) {
 
         WorkflowManagementService workflowManagementService = new WorkflowManagementServiceImpl();
         List<WorkflowAssociation> associations = getAssociations(request);
@@ -113,7 +107,7 @@ public class DefaultWorkflowEventRequestService {
         return workflowId;
     }
 
-    private List<WorkflowAssociation> getAssociations(WorkflowRequest workflowRequest) {
+    public List<WorkflowAssociation> getAssociations(WorkflowRequest workflowRequest) {
 
         List<WorkflowAssociation> associations;
         WorkflowExecutorManagerService workFlowExecutorManagerService = new WorkflowExecutorManagerServiceImpl();
@@ -124,6 +118,18 @@ public class DefaultWorkflowEventRequestService {
             throw new WorkflowEngineRuntimeException("The associations are not connecting with any request");
         }
         return associations;
+    }
+
+    public String getApprovalOfRequest(String eventId) {
+
+        WorkflowEventRequestDAO workflowEventRequestDAO = new WorkflowEventRequestDAOImpl();
+        return workflowEventRequestDAO.getApproversOfRequest(eventId);
+    }
+
+    public void deleteApprovalOfRequest(String taskId) {
+
+        WorkflowEventRequestDAO workflowEventRequestDAO = new WorkflowEventRequestDAOImpl();
+        workflowEventRequestDAO.deleteApproversOfRequest(taskId);
     }
 
     public void createStatesOfRequest(String eventId, String workflowId, int currentStep) {
@@ -148,66 +154,7 @@ public class DefaultWorkflowEventRequestService {
         workflowEventRequestDAO.updateStateOfRequest(eventId, workflowId, currentStep);
     }
 
-    public void handleCallBack(String eventId) {
-
-        validateApprovers(eventId);
-        WorkflowExecutorManagerService workFlowExecutorManagerService = new WorkflowExecutorManagerServiceImpl();
-        String requestId;
-        WorkflowRequest request;
-        try {
-            requestId = workFlowExecutorManagerService.getRequestIdOfRelationship(eventId);
-            request = workFlowExecutorManagerService.retrieveWorkflow(requestId);
-        } catch (InternalWorkflowException e) {
-            throw new RuntimeException(e);
-        }
-        List<Parameter> parameterList = getParameterList(request);
-        String status = null;
-        for (int i = 0; i < numOfStates(request); i++) {
-            if (!(status.equals(WorkflowEngineConstants.EventState.APPROVED.toString()))) {
-                addApproversOfRequests(request, parameterList);
-                            /*for (String states : statesOfRequest) {
-                if (!states.equals(WorkflowEngineConstants.EventState.APPROVED.toString())) {
-                    addApproversOfRequests(request, parameterList);
-                }
-            }*/
-            }
-        }
-    }
-
-    private void validateApprovers(String eventId) {
-
-        DefaultWorkflowEventRequestService defaultWorkflowEventRequestService = new DefaultWorkflowEventRequestService();
-        WorkflowExecutorManagerService workFlowExecutorManagerService = new WorkflowExecutorManagerServiceImpl();
-        String requestId;
-        WorkflowRequest request;
-        try {
-            requestId = workFlowExecutorManagerService.getRequestIdOfRelationship(eventId);
-            request = workFlowExecutorManagerService.retrieveWorkflow(requestId);
-        } catch (InternalWorkflowException e) {
-            throw new RuntimeException(e);
-        }
-        String workflowId=getWorkflowId(request);
-        defaultWorkflowEventRequestService.getStateOfRequest(eventId, workflowId);
-
-    }
-
-    private int numOfStates(WorkflowRequest request) {
-
-        List<WorkflowAssociation> associations = getAssociations(request);
-        List<Parameter> parameterList = getParameterList(request);
-        int count = 0;
-        for (WorkflowAssociation association : associations) {
-            for (Parameter parameter : parameterList) {
-                if (parameter.getParamName().equals(WorkflowEngineConstants.ParameterName.USER_AND_ROLE_STEP)
-                        && parameter.getParamValue() == null) {
-                    count++;
-                }
-            }
-        }
-        return count;
-    }
-
-    private List<Parameter> getParameterList(WorkflowRequest request) {
+    public List<Parameter> getParameterList(WorkflowRequest request) {
 
         WorkflowManagementService workflowManagementService = new WorkflowManagementServiceImpl();
         List<WorkflowAssociation> associations = getAssociations(request);
