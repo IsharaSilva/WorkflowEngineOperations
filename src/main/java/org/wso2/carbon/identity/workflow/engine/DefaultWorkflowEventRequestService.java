@@ -39,8 +39,7 @@ public class DefaultWorkflowEventRequestService implements DefaultWorkflowEventR
         List<WorkflowAssociation> associations = getAssociations(request);
         for (WorkflowAssociation association : associations) {
             for (Parameter parameter : parameterList) {
-                if (parameter.getParamName().equals(WorkflowEngineConstants.ParameterName.USER_AND_ROLE_STEP)
-                        && parameter.getParamValue() == null) {
+                if (parameter.getParamName().equals(WorkflowEngineConstants.ParameterName.USER_AND_ROLE_STEP)) {
                     String[] stepName = parameter.getqName().split("-");
                     int step = Integer.parseInt(stepName[2]);
                     currentStep = getStateOfRequest(eventId, workflowId);

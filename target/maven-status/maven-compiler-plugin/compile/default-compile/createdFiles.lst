@@ -1,5 +1,7 @@
 org/wso2/carbon/identity/workflow/engine/DefaultWorkflowExecutor.class
+org/wso2/carbon/identity/workflow/engine/DefaultWorkflowEventRequest.class
 org/wso2/carbon/identity/workflow/engine/util/EventResultState$1.class
+org/wso2/carbon/identity/workflow/engine/DefaultApprovalEventRequestService.class
 org/wso2/carbon/identity/workflow/engine/exception/WorkflowEngineException.class
 org/wso2/carbon/identity/workflow/engine/util/WorkflowEngineConstants$EventState.class
 org/wso2/carbon/identity/workflow/engine/dao/WorkflowEventRequestDAO.class
@@ -24,3 +26,4 @@ org/wso2/carbon/identity/workflow/engine/util/WorkflowEngineConstants.class
 org/wso2/carbon/identity/workflow/engine/exception/WorkflowEngineRuntimeException.class
 org/wso2/carbon/identity/workflow/engine/model/WorkflowDefinition.class
 org/wso2/carbon/identity/workflow/engine/model/Approver.class
+org/wso2/carbon/identity/workflow/engine/DefaultApprovalEventRequest.class

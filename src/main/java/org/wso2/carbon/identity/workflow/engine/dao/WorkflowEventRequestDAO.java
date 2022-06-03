@@ -15,28 +15,36 @@ public interface WorkflowEventRequestDAO {
     String addApproversOfRequest(String taskId, String eventId, String workflowId, String approverType, String approverName);
 
     /**
-     * @param eventId
-     * @return
+     * Get taskId from table.
+     *
+     * @param eventId the request ID that need to be checked.
+     * @return task Id.
      */
     String getApproversOfRequest(String eventId);
 
     /**
-     * @param eventId
-     * @return
+     * Get approverName related to currentStep.
+     *
+     * @param eventId the request ID that need to be checked.
+     * @return the value of the approver type.
      */
     String getApproversOfCurrentStep(String eventId);
 
     /**
-     * @param taskId
-     * @param eventId
-     * @param workflowId
-     * @param approverType
-     * @param approverName
+     * Update approver details.
+     *
+     * @param taskId random generated unique Id.
+     * @param eventId the request ID that need to be checked.
+     * @param workflowId workflow ID.
+     * @param approverType the type of the approved user EX: user or Role.
+     * @param approverName the value of the approver type.
      */
     void updateApproversOfRequest(String taskId, String eventId, String workflowId, String approverType, String approverName);
 
     /**
-     * @param taskId
+     * Delete approver details using task Id.
+     *
+     * @param taskId random generated unique Id.
      */
     void deleteApproversOfRequest(String taskId);
 
