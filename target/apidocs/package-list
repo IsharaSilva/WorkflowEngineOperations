@@ -2,5 +2,6 @@ org.wso2.carbon.identity.workflow.engine
 org.wso2.carbon.identity.workflow.engine.dao
 org.wso2.carbon.identity.workflow.engine.dao.impl
 org.wso2.carbon.identity.workflow.engine.exception
+org.wso2.carbon.identity.workflow.engine.internal
 org.wso2.carbon.identity.workflow.engine.model
 org.wso2.carbon.identity.workflow.engine.util

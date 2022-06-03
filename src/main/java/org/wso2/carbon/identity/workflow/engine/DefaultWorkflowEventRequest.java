@@ -1,87 +1,83 @@
 package org.wso2.carbon.identity.workflow.engine;
 
-import org.wso2.carbon.identity.workflow.engine.dao.WorkflowEventRequestDAO;
-import org.wso2.carbon.identity.workflow.engine.dao.impl.WorkflowEventRequestDAOImpl;
-import org.wso2.carbon.identity.workflow.engine.exception.WorkflowEngineException;
-import org.wso2.carbon.identity.workflow.engine.util.WorkflowEngineConstants;
-import org.wso2.carbon.identity.workflow.mgt.WorkflowExecutorManagerService;
-import org.wso2.carbon.identity.workflow.mgt.WorkflowExecutorManagerServiceImpl;
-import org.wso2.carbon.identity.workflow.mgt.WorkflowManagementService;
-import org.wso2.carbon.identity.workflow.mgt.WorkflowManagementServiceImpl;
 import org.wso2.carbon.identity.workflow.mgt.bean.Parameter;
 import org.wso2.carbon.identity.workflow.mgt.bean.WorkflowAssociation;
 import org.wso2.carbon.identity.workflow.mgt.dto.WorkflowRequest;
-import org.wso2.carbon.identity.workflow.mgt.exception.InternalWorkflowException;
-import org.wso2.carbon.identity.workflow.mgt.exception.WorkflowException;
 
-import java.util.Collections;
 import java.util.List;
 
-public class DefaultWorkflowEventRequest {
-
-    private List<Parameter> parameterList;
-    WorkflowEventRequestDAO workflowEventRequestDAO = new WorkflowEventRequestDAOImpl();
+public interface DefaultWorkflowEventRequest {
 
     /**
      * Add who approves the relevant request.
      *
-     * @param request request object from WorkflowRequest.
-     * @return eventId.
+     * @param request       workflow request object.
+     * @param parameterList parameterList.
      */
-    public String addApproversOfRequests(WorkflowRequest request) {
-
-        WorkflowManagementService workflowManagementService = new WorkflowManagementServiceImpl();
-        String eventId = request.getUuid();
-        List<WorkflowAssociation> associations;
-        WorkflowExecutorManagerService workflowExecutorManagerService = new WorkflowExecutorManagerServiceImpl();
-        try {
-            associations = workflowExecutorManagerService.getWorkflowAssociationsForRequest(
-                    request.getEventType(), request.getTenantId());
-        } catch (InternalWorkflowException e) {
-            throw new WorkflowEngineException("The associations are not connecting with any request");
-        }
-        String workflowId = null;
-        String approverType = null;
-        String approverName = null;
-        for (WorkflowAssociation association : associations) {
-            try {
-                workflowId = String.valueOf(workflowManagementService.getWorkflow(association.getWorkflowId()));
-            } catch (WorkflowException e) {
-                throw new WorkflowEngineException("The workflow Id is not valid");
-            }
-            for (Parameter parameter : this.parameterList) {
-                if (parameter.getParamName().equals(WorkflowEngineConstants.ParameterName.USER_AND_ROLE_STEP)) {
-                    //use split method to get string last word EX: UserAndRole-step-1-roles -> lastWord=roles
-                    String[] stepName = parameter.getqName().split("-");
-                    approverType = stepName[stepName.length - 1];
-                }
-                String approver = parameter.getParamValue();
-                String[] approvers = approver.split(",");
-                if (approvers != null) {
-                    List<String> approverList = Collections.singletonList(approver);
-                    for (String name : approverList) {
-                        approverName = name;
-                    }
-                }
-            }
-        }
-        return workflowEventRequestDAO.addApproversOfRequest(eventId, workflowId, approverType, approverName);
-    }
+    void addApproversOfRequests(WorkflowRequest request, List<Parameter> parameterList);
 
     /**
-     * Identify the current Step.
+     * Get taskId from WF_REQUEST_APPROVAL_RELATION table.
      *
-     * @param eventId     the request ID that need to be checked.
-     * @param currentStep the current step.
+     * @param eventId   the request ID that need to be checked.
+     * @return task Id.
      */
-    public void createStatesOfRequest(String eventId, int currentStep) {
+    String getApprovalOfRequest(String eventId);
 
-        for (Parameter parameter : this.parameterList) {
-            if (parameter.getParamName().equals(WorkflowEngineConstants.ParameterName.USER_AND_ROLE_STEP)) {
-                String[] stepName = parameter.getqName().split("-");
-                currentStep = Integer.parseInt(stepName[2]);
-            }
-        }
-        workflowEventRequestDAO.createStatesOfRequest(eventId, currentStep);
-    }
+    /**
+     * Delete approver details using task Id.
+     *
+     * @param taskId random generated unique Id.
+     */
+     void deleteApprovalOfRequest(String taskId);
+
+    /**
+     * Add current step.
+     *
+     * @param eventId the request ID that need to be checked.
+     * @param workflowId workflow id.
+     * @param currentStep current step of the flow.
+     */
+    void createStatesOfRequest(String eventId, String workflowId, int currentStep);
+
+    /**
+     * Get current step from the table.
+     *
+     * @param eventId the request ID that need to be checked.
+     * @param workflowId workflow Id.
+     * @return
+     */
+     int getStateOfRequest(String eventId, String workflowId);
+
+    /**
+     *Update current step according to the eventId and workflowId.
+     *
+     * @param eventId the request ID that need to be checked.
+     * @param workflowId workflow Id.
+     */
+    void updateStateOfRequest(String eventId, String workflowId);
+
+    /**
+     * Get parameter List relevant to request.
+     *
+     * @param request request object.
+     * @return parameter List.
+     */
+    List<Parameter> getParameterList(WorkflowRequest request);
+
+    /**
+     * Get related associations.
+     *
+     * @param workflowRequest request object.
+     * @return association list.
+     */
+    List<WorkflowAssociation> getAssociations(WorkflowRequest workflowRequest);
+
+    /**
+     * Get relevant workflow id to request.
+     *
+     * @param request request object.
+     * @return workflow Id.
+     */
+    String getWorkflowId(WorkflowRequest request);
 }

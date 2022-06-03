@@ -1,13 +1,11 @@
 package org.wso2.carbon.identity.workflow.engine.model;
 
-import java.util.List;
-
 public class WorkflowDefinition {
 
     private String wfId;
     private String wfName;
     private String wfDescription;
-    private List<ApprovalStep> approvalSteps;
+
     private String approvalSubject;
     private String approvalDescription;
 

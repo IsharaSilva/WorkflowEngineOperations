@@ -3,6 +3,7 @@ package org.wso2.carbon.identity.workflow.engine.internal;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
@@ -12,14 +13,12 @@ import org.wso2.carbon.identity.workflow.engine.DefaultWorkflowExecutor;
 import org.wso2.carbon.identity.workflow.engine.WorkflowEngine;
 import org.wso2.carbon.identity.workflow.mgt.WorkflowExecutorManagerService;
 import org.wso2.carbon.identity.workflow.mgt.WorkflowManagementService;
-import org.wso2.carbon.identity.workflow.mgt.bean.metadata.MetaData;
 import org.wso2.carbon.identity.workflow.mgt.workflow.AbstractWorkflow;
 
-import java.io.StringWriter;
-import javax.xml.bind.JAXB;
-
+@Component(
+        name = "org.wso2.carbon.identity.workflow.engine",
+        immediate = true)
 public class WorkflowEngineServiceComponent {
-
     @Activate
     protected void activate(ComponentContext context) {
 
@@ -33,16 +32,36 @@ public class WorkflowEngineServiceComponent {
 
     private String getMetaDataXML() {
 
-        StringWriter stringWriter = new StringWriter();
+       /* StringWriter stringWriter = new StringWriter();
         MetaData metaData = new MetaData();
         MetaData.WorkflowImpl workflowImpl=new MetaData.WorkflowImpl();
         workflowImpl.setWorkflowImplId("newWorkflowImpl");
+        workflowImpl.setWorkflowImplName("newWorkflowImpl");
         metaData.setWorkflowImpl(workflowImpl);
         MetaData.Template template = new MetaData.Template();
-        template.setTemplateId("newTemplate");
+        template.setTemplateId("MultiStepApprovalTemplate");
         metaData.setTemplate(template);
         JAXB.marshal(metaData, stringWriter);
-        return stringWriter.toString();
+        return stringWriter.toString();*/
+        return "<met:MetaData xmlns:met=\"http://metadata.bean.mgt.workflow.identity.carbon.wso2.org\">\n" +
+                "<met:WorkflowImpl>\n" +
+                "    <met:WorkflowImplId>newWorkflowImpl</met:WorkflowImplId>\n" +
+                "    <met:WorkflowImplName>ApprovalWorkflow</met:WorkflowImplName>\n" +
+                "    <met:WorkflowImplDescription>Approval Workflow</met:WorkflowImplDescription>\n" +
+                "    <met:TemplateId>MultiStepApprovalTemplate</met:TemplateId>\n" +
+                "    <met:ParametersMetaData>\n" +
+                "        <met:ParameterMetaData Name=\"BPSProfile\" InputType=\"Select\" isRequired=\"true\" isInputDataRequired=\"true\">\n" +
+                "            <met:DisplayName>BPS Profile(Server Profile Name)</met:DisplayName>\n" +
+                "        </met:ParameterMetaData>\n" +
+                "        <met:ParameterMetaData Name=\"HTSubject\" DataType=\"String\" InputType=\"Text\" isRequired=\"true\">\n" +
+                "            <met:DisplayName>Task Subject(Approval task subject to display)</met:DisplayName>\n" +
+                "        </met:ParameterMetaData>\n" +
+                "        <met:ParameterMetaData Name=\"HTDescription\" DataType=\"String\" InputType=\"TextArea\">\n" +
+                "            <met:DisplayName>Task Detail(Approval task description)</met:DisplayName>\n" +
+                "        </met:ParameterMetaData>\n" +
+                "    </met:ParametersMetaData>\n" +
+                "</met:WorkflowImpl>\n" +
+                "</met:MetaData>";
     }
 
     @Reference(
@@ -61,7 +80,7 @@ public class WorkflowEngineServiceComponent {
     }
 
     @Reference(
-            name = "org.wso2.carbon.identity.workflow.mgt",
+            name = "org.wso2.carbon.identity.workflow.mgt.executor",
             service = org.wso2.carbon.identity.workflow.mgt.WorkflowExecutorManagerService.class,
             cardinality = ReferenceCardinality.MANDATORY,
             policy = ReferencePolicy.DYNAMIC,
