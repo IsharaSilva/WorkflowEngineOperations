@@ -31,22 +31,19 @@ public class DefaultWorkflowEventRequestService implements DefaultWorkflowEventR
         String workflowId = getWorkflowId(request);
         String approverType = null;
         String approverName = null;
-        int currentStep;
         int currentStepValue = getStateOfRequest(eventId, workflowId);
         if (currentStepValue == 0) {
             createStatesOfRequest(eventId, workflowId, currentStepValue);
         }
+        currentStepValue += 1;
+        updateStateOfRequest(eventId, workflowId);
         List<WorkflowAssociation> associations = getAssociations(request);
         for (WorkflowAssociation association : associations) {
             for (Parameter parameter : parameterList) {
                 if (parameter.getParamName().equals(WorkflowEngineConstants.ParameterName.USER_AND_ROLE_STEP)) {
                     String[] stepName = parameter.getqName().split("-");
                     int step = Integer.parseInt(stepName[2]);
-                    currentStep = getStateOfRequest(eventId, workflowId);
-                    currentStep += 1;
-                    updateStateOfRequest(eventId, workflowId);
-                    if (currentStep == step) {
-                        //use split method to get string last word EX: UserAndRole-step-1-roles -> lastWord=roles
+                    if (currentStepValue == step) {
                         approverType = stepName[stepName.length - 1];
 
                         String approver = parameter.getParamValue();
@@ -54,14 +51,14 @@ public class DefaultWorkflowEventRequestService implements DefaultWorkflowEventR
                         if (approvers != null) {
                             List<String> approverList = Collections.singletonList(approver);
                             String stepValue = WorkflowEngineConstants.ParameterName.USER_AND_ROLE_STEP + "-step-" +
-                                    currentStep + "-users";
+                                    currentStepValue + "-users";
                             if (stepValue.equals(parameter.getqName())) {
                                 for (String name : approverList) {
                                     approverName = name;
                                 }
                             }
                             stepValue = WorkflowEngineConstants.ParameterName.USER_AND_ROLE_STEP + "-step-" +
-                                    currentStep + "-roles";
+                                    currentStepValue + "-roles";
                             if (stepValue.equals(parameter.getqName())) {
                                 for (String name : approverList) {
                                     approverName = name;
@@ -69,11 +66,10 @@ public class DefaultWorkflowEventRequestService implements DefaultWorkflowEventR
                             }
                         }
                     }
-                    break;
                 }
             }
-            workflowEventRequestDAO.addApproversOfRequest(taskId, eventId, workflowId, approverType, approverName);
         }
+        workflowEventRequestDAO.addApproversOfRequest(taskId, eventId, workflowId, approverType, approverName);
     }
 
     private String getRequestId(WorkflowRequest request) {
@@ -151,21 +147,6 @@ public class DefaultWorkflowEventRequestService implements DefaultWorkflowEventR
         currentStep += 1;
 
         workflowEventRequestDAO.updateStateOfRequest(eventId, workflowId, currentStep);
-    }
-
-    public List<Parameter> getParameterList(WorkflowRequest request) {
-
-        WorkflowManagementService workflowManagementService = new WorkflowManagementServiceImpl();
-        List<WorkflowAssociation> associations = getAssociations(request);
-        List<Parameter> parameterList = null;
-        for (WorkflowAssociation association : associations) {
-            try {
-                parameterList = workflowManagementService.getWorkflowParameters(association.getWorkflowId());
-            } catch (WorkflowException e) {
-                throw new WorkflowEngineException("The parameterList can't get");
-            }
-        }
-        return parameterList;
     }
 }
 

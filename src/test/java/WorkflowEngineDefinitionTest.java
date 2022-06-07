@@ -1,7 +1,5 @@
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import org.wso2.carbon.identity.workflow.engine.WorkflowEngine;
-import org.wso2.carbon.identity.workflow.engine.DefaultWorkflowEngineImpl;
 import org.wso2.carbon.identity.workflow.engine.model.WorkflowDefinition;
 
 import java.util.List;

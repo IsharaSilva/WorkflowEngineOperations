@@ -8,9 +8,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
 import org.wso2.carbon.identity.workflow.engine.DefaultApprovalWorkflow;
-import org.wso2.carbon.identity.workflow.engine.DefaultWorkflowEngineImpl;
 import org.wso2.carbon.identity.workflow.engine.DefaultWorkflowExecutor;
-import org.wso2.carbon.identity.workflow.engine.WorkflowEngine;
 import org.wso2.carbon.identity.workflow.mgt.WorkflowExecutorManagerService;
 import org.wso2.carbon.identity.workflow.mgt.WorkflowManagementService;
 import org.wso2.carbon.identity.workflow.mgt.workflow.AbstractWorkflow;
@@ -23,26 +21,12 @@ public class WorkflowEngineServiceComponent {
     protected void activate(ComponentContext context) {
 
         BundleContext bundleContext = context.getBundleContext();
-        WorkflowEngine workflowEngine = new DefaultWorkflowEngineImpl();
-        bundleContext.registerService(WorkflowEngine.class, workflowEngine, null);
         bundleContext.registerService(AbstractWorkflow.class, new DefaultApprovalWorkflow(DefaultWorkflowExecutor.class,
                 getMetaDataXML()), null);
-        WorkflowEngineServiceDataHolder.getInstance().setWorkflowService(workflowEngine);
     }
 
     private String getMetaDataXML() {
 
-       /* StringWriter stringWriter = new StringWriter();
-        MetaData metaData = new MetaData();
-        MetaData.WorkflowImpl workflowImpl=new MetaData.WorkflowImpl();
-        workflowImpl.setWorkflowImplId("newWorkflowImpl");
-        workflowImpl.setWorkflowImplName("newWorkflowImpl");
-        metaData.setWorkflowImpl(workflowImpl);
-        MetaData.Template template = new MetaData.Template();
-        template.setTemplateId("MultiStepApprovalTemplate");
-        metaData.setTemplate(template);
-        JAXB.marshal(metaData, stringWriter);
-        return stringWriter.toString();*/
         return "<met:MetaData xmlns:met=\"http://metadata.bean.mgt.workflow.identity.carbon.wso2.org\">\n" +
                 "<met:WorkflowImpl>\n" +
                 "    <met:WorkflowImplId>newWorkflowImpl</met:WorkflowImplId>\n" +

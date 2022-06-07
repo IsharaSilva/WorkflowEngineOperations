@@ -43,9 +43,9 @@ public interface DefaultWorkflowEventRequest {
     /**
      * Get current step from the table.
      *
-     * @param eventId the request ID that need to be checked.
+     * @param eventId    the request ID that need to be checked.
      * @param workflowId workflow Id.
-     * @return
+     * @return currentStep.
      */
      int getStateOfRequest(String eventId, String workflowId);
 
@@ -56,14 +56,6 @@ public interface DefaultWorkflowEventRequest {
      * @param workflowId workflow Id.
      */
     void updateStateOfRequest(String eventId, String workflowId);
-
-    /**
-     * Get parameter List relevant to request.
-     *
-     * @param request request object.
-     * @return parameter List.
-     */
-    List<Parameter> getParameterList(WorkflowRequest request);
 
     /**
      * Get related associations.

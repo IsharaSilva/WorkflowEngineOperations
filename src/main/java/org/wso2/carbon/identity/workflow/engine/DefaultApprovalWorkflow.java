@@ -18,15 +18,6 @@ public class DefaultApprovalWorkflow extends AbstractWorkflow {
         super(null, workFlowExecutorClass, metaDataXML);
     }
 
-    /*public DefaultApprovalWorkflow(Class<? extends WorkFlowExecutor> workFlowExecutorClass) {
-
-        this(null, workFlowExecutorClass, getMetaDataXML());
-        MetaData metaData = new MetaData();
-        metaData.setWorkflowImpl();
-        this.templateId = metaData.getWorkflowImpl().getWorkflowImplId();
-        this.workflowImplId = metaData.getTemplate().getTemplateId();
-    }*/
-
     @Override
     protected InputData getInputData(ParameterMetaData parameterMetaData) {
 

@@ -31,17 +31,6 @@ public interface WorkflowEventRequestDAO {
     String getApproversOfCurrentStep(String eventId);
 
     /**
-     * Update approver details.
-     *
-     * @param taskId random generated unique Id.
-     * @param eventId the request ID that need to be checked.
-     * @param workflowId workflow ID.
-     * @param approverType the type of the approved user EX: user or Role.
-     * @param approverName the value of the approver type.
-     */
-    void updateApproversOfRequest(String taskId, String eventId, String workflowId, String approverType, String approverName);
-
-    /**
      * Delete approver details using task Id.
      *
      * @param taskId random generated unique Id.
