@@ -1,6 +1,5 @@
 package org.wso2.carbon.identity.workflow.engine.internal;
 
-import org.wso2.carbon.identity.workflow.engine.WorkflowEngine;
 import org.wso2.carbon.identity.workflow.mgt.WorkflowExecutorManagerService;
 import org.wso2.carbon.identity.workflow.mgt.WorkflowManagementService;
 import org.wso2.carbon.identity.workflow.mgt.workflow.AbstractWorkflow;
@@ -14,7 +13,6 @@ public class WorkflowEngineServiceDataHolder {
 
     private WorkflowManagementService workflowManagementService;
 
-    private WorkflowEngine workflowEngine = null;
     private WorkflowExecutorManagerService workflowExecutorManagerService;
 
     private WorkflowEngineServiceDataHolder() {
@@ -33,16 +31,6 @@ public class WorkflowEngineServiceDataHolder {
     public void setWorkflowManagementService(
             WorkflowManagementService workflowManagementService) {
         this.workflowManagementService = workflowManagementService;
-    }
-
-    public WorkflowEngine getWorkflowService() {
-
-        return workflowEngine;
-    }
-
-    public void setWorkflowService(WorkflowEngine workflowEngine) {
-
-        this.workflowEngine = workflowEngine;
     }
 
     public WorkflowExecutorManagerService getWorkflowExecutorManagerService() {

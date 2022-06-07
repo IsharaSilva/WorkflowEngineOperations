@@ -9,7 +9,7 @@ import java.util.List;
 public class DefaultWorkflowExecutor implements WorkFlowExecutor {
 
     List<Parameter> parameterList;
-    private static final String EXECUTOR_NAME = "DefaultWorkflowEngine";
+    private static final String EXECUTOR_NAME = "WorkflowEngineSimple";
 
     @Override
     public boolean canHandle(WorkflowRequest workflowRequest) {
